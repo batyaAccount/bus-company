@@ -1,0 +1,150 @@
+{
+  "Employees": [
+    {
+      "Id": 1,
+      "Name": "John Doe",
+      "Tz": "215111915",
+      "Address": "123 Main Street",
+      "PhoneNumber": "0504111048",
+      "WorkType": "driver",
+      "AmountOfHours": 40,
+      "Salary": 5000,
+      "StartDate": "2022-01-01"
+    },
+    {
+      "Id": 2,
+      "Name": "Jane Smith",
+      "Tz": "215111915",
+      "Address": "456 Elm Street",
+      "PhoneNumber": "0548411045",
+      "WorkType": "officeEmployee",
+      "AmountOfHours": 35,
+      "Salary": 6000,
+      "StartDate": "2022-02-15"
+    },
+    {
+      "Id": 3,
+      "Name": "Michael Johnson",
+      "Tz": "215111915",
+      "Address": "789 Oak Avenue",
+      "PhoneNumber": "0548411045",
+      "WorkType": "cleaner",
+      "AmountOfHours": 25,
+      "Salary": 4000,
+      "StartDate": "2022-03-10"
+    },
+    {
+      "Id": 4,
+      "Name": "Sarah Williams",
+      "Tz": "12012696",
+      "Address": "321 Pine Road",
+      "PhoneNumber": "0548411045",
+      "WorkType": "driver",
+      "AmountOfHours": 45,
+      "Salary": 5500,
+      "StartDate": "2022-04-20"
+    },
+    {
+      "Id": 5,
+      "Name": "Chris Anderson",
+      "Tz": "12012696",
+      "Address": "567 Maple Lane",
+      "PhoneNumber": "0548411045",
+      "WorkType": "officeEmployee",
+      "AmountOfHours": 30,
+      "Salary": 7000,
+      "StartDate": "2022-05-05"
+    }
+  ],
+  "Routes": [
+    {
+      "Id": 1,
+      "BusLineId": 101,
+      "Driver": 1,
+      "Station": 1,
+      "SourceStationId": 1,
+      "HourOfFirstBus": "2022-05-05",
+      "HourOfLastBus": "2022-05-05"
+    },
+    {
+      "Id": 2,
+      "BusLineId": 102,
+      "Driver": 2,
+      "Station": 2,
+      "SourceStationId": 2,
+      "HourOfFirstBus": "2022-05-05",
+      "HourOfLastBus": "2022-05-05"
+    },
+    {
+      "Id": 3,
+      "BusLineId": 103,
+      "Driver": 3,
+      "Station": 3,
+      "SourceStationId": 3,
+      "HourOfFirstBus": "2022-05-05",
+      "HourOfLastBus": "2022-05-05"
+    }
+  ],
+  "Buses": [
+    {
+      "Id": 1,
+      "BusLine": 101,
+      "SourceStation": "Station A",
+      "DestinationStation": "Station B",
+      "Type": "interstate",
+      "TravelTime": 30,
+      "IsActive": true
+    },
+    {
+      "Id": 2,
+      "BusLine": 102,
+      "SourceStation": "Station C",
+      "DestinationStation": "Station D",
+      "Type": "urban",
+      "TravelTime": 45,
+      "IsActive": true
+    }
+  ],
+  "Stations": [
+    {
+      "Id": 1,
+      "Name": "Station A",
+      "City": "City X",
+      "Street": "Main Street",
+      "StationNumber": 123,
+      "GpsWaypoint": "123.456, 789.012",
+      "Type": "Bus"
+    },
+    {
+      "Id": 2,
+      "Name": "Station B",
+      "City": "City Y",
+      "Street": "First Avenue",
+      "StationNumber": 456,
+      "GpsWaypoint": "456.789, 012.345",
+      "Type": "Train"
+    }
+  ],
+  "PublicInquiries": [
+    {
+      "Id": 1,
+      "Driver": 101,
+      "Date": "2022-10-15T08:00:00",
+      "Description": "Complaint about cleanliness",
+      "CaredBy": 201,
+      "Cared": true,
+      "ComplainerName": "John Doe",
+      "PhoneNumber": "1234567890"
+    },
+    {
+      "Id": 2,
+      "Driver": 102,
+      "Date": "2022-10-16T12:30:00",
+      "Description": "Complaint about late arrival",
+      "CaredBy": 202,
+      "Cared": true,
+      "ComplainerName": "Jane Smith",
+      "PhoneNumber": "9876543210"
+    }
+  ]
+}
