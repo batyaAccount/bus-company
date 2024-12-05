@@ -9,6 +9,8 @@ namespace busCompany.Core.IRepository
 {
     public interface IEmployeeRepository
     {
+        public int indexOf(int id);
+
         public List<Employee> GetEmployees();
         public Employee getByIdEmployees(int id);
         public bool Add(Employee employee);

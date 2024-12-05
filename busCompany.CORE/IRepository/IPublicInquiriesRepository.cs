@@ -10,6 +10,8 @@ namespace busCompany.CORE.IRepository
     public interface IPublicInquiriesRepository
     {
         public List<PublicInquiries> GetPublicInquiries();
+        public int indexOf(int id);
+
         public PublicInquiries GetByIdPublicInquiry(int id);
         public bool Add(PublicInquiries publicInquiry);
         public bool Update(int id, PublicInquiries publicInquiry);

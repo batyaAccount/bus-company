@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace busCompany.SERVICE.Service
 {
-    public class BusesSrvice:IBusesService
+    public class BusesSrvice : IBusesService
     {
         readonly IBusesRepository _busesRepository;
         public BusesSrvice(IBusesRepository busesRepository)
@@ -29,16 +29,21 @@ namespace busCompany.SERVICE.Service
 
         public bool DeleteOne(int id)
         {
-           return _busesRepository.DeleteBus(id);
+            return _busesRepository.DeleteBus(id);
         }
 
         public List<Bus> GetAll()
         {
-           return _busesRepository.GetBuses();
+            return _busesRepository.GetBuses();
         }
 
         public bool Update(int id, Bus employee)
         {
+          
+            if (GetAll().Count == 0)
+                return false;
+            if (_busesRepository.indexOf(id)==-1)
+                return false;
             return _busesRepository.Update(id, employee);
         }
     }

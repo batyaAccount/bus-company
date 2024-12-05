@@ -8,18 +8,19 @@ using System.Threading.Tasks;
 
 namespace busCompany.DATA.Repository
 {
-    public class BusesRepository:IBusesRepository
+    public class BusesRepository : IBusesRepository
     {
         readonly DataContext _context;
+
         public BusesRepository(DataContext context)
         {
             _context = context;
         }
-        public List<Bus> GetBuses() { return _context.Buses; }
+        public List<Bus> GetBuses() { return _context.Buses.ToList(); }
         public Bus GetByIdBus(int id)
         {
 
-            return _context.Buses.Find(z => z.Id == id);
+            return _context.Buses.ToList().Find(z => z.Id == id);
 
         }
         public bool Add(Bus bus)
@@ -28,7 +29,6 @@ namespace busCompany.DATA.Repository
             {
                 _context.Buses.Add(bus);
                 _context.SaveChanges();
-               
                 return true;
             }
             catch
@@ -38,24 +38,32 @@ namespace busCompany.DATA.Repository
         }
         public bool Update(int id, Bus bus)
         {
-            Bus bus1 = _context.Buses.Find(b => b.Id == id);
-            if (bus1 == null)
-                return false;
-            DeleteBus(id);
-            bus1.Id = id;
-            bus1.BusLine = bus.BusLine;
-            bus1.SourceStation = bus.SourceStation;
-            bus1.DestinationStation = bus.DestinationStation;
-            bus1.IsActive = bus.IsActive;
-            bus1.Type = bus.Type;
-            bus1.TravelTime = bus.TravelTime;
-            if (Add(bus1))
-                return true;
-            return false;
+            //The validate checking was done in the service
+            Bus bus1  = _context.Buses.ToList().Find(b => b.Id == id);
+
+            _ = bus.BusLine != 0 && bus.BusLine != bus1.BusLine ?
+            bus1.BusLine = bus.BusLine : bus1.BusLine = bus1.BusLine;
+
+            _ = bus.TravelTime != 0 && bus.TravelTime != bus1.TravelTime ?
+            bus1.TravelTime = bus.TravelTime : bus1.TravelTime = bus1.TravelTime;
+
+            _ = bus.IsActive != bus1.IsActive ?
+          bus1.IsActive = bus.IsActive : bus1.IsActive = bus1.IsActive;
+
+            _ = bus.DestinationStation != null && bus.DestinationStation != bus1.DestinationStation ?
+          bus1.DestinationStation = bus.DestinationStation : bus1.DestinationStation = bus1.DestinationStation;
+
+            _ = bus.SourceStation != null && bus.SourceStation != bus1.SourceStation ?
+          bus1.SourceStation = bus.SourceStation : bus1.SourceStation = bus1.SourceStation;
+
+            _ = bus.Type != null && bus.Type != bus1.Type ?
+        bus1.Type = bus.Type : bus1.Type = bus1.Type;
+          _context.SaveChanges();
+            return true;
         }
         public bool DeleteBus(int id)
         {
-            List<Bus> l = _context.Buses;
+            List<Bus> l = _context.Buses.ToList();
 
             Bus employeeToDelete = l.FirstOrDefault(e => e.Id == id);
 
@@ -65,9 +73,15 @@ namespace busCompany.DATA.Repository
                 _context.SaveChanges();
                 return true;
             }
-
             return false;
 
+
         }
+
+        public int indexOf(int id)
+        {
+            return _context.Buses.ToList().FindIndex(b => b.Id == id);
+        }
+
     }
 }

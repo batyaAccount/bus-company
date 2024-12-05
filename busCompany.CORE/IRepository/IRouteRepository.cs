@@ -14,5 +14,7 @@ namespace busCompany.CORE.IRepository
         public bool Add(Route route);
         public bool Update(int id, Route route);
         public bool DeleteRoute(int id);
+        public int indexOf(int id);
+
     }
 }

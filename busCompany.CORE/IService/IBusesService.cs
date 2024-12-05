@@ -9,6 +9,7 @@ namespace busCompany.CORE.IService
 {
     public interface IBusesService
     {
+
         public List<Bus> GetAll();
         public Bus GetBus(int id);
         public bool Add(Bus employee);

@@ -14,5 +14,6 @@ namespace busCompany.CORE.IRepository
         public bool Add(Bus bus);
         public bool Update(int id, Bus bus);
         public bool DeleteBus(int id);
+        public int indexOf(int id);
     }
 }

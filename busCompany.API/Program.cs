@@ -5,6 +5,8 @@ using busCompany.CORE.IService;
 using busCompany.DATA;
 using busCompany.DATA.Repository;
 using busCompany.SERVICE.Service;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,12 +16,17 @@ builder.Services.AddScoped<busCompany.Core.Entity.Route>();
 builder.Services.AddScoped<Employee>();
 builder.Services.AddScoped<PublicInquiries>();
 builder.Services.AddScoped<Station>();
-builder.Services.AddSingleton<DataContext>();
+builder.Services.AddDbContext<DataContext>(option =>
+    {
+        option.UseSqlServer("Data Source=DESKTOP-SSNMLFD;Initial Catalog=bus-company;Integrated Security=true;");
+    });
+//service
 builder.Services.AddScoped<IBusesService, BusesSrvice>();
 builder.Services.AddScoped<IEmployeesService, EmployeesService>();
 builder.Services.AddScoped<IRoutesService, RoutesService>();
 builder.Services.AddScoped<IStationsService, StationsService>();
 builder.Services.AddScoped<IPublicInquiriesService, PublicInquiriesService>();
+//repository
 builder.Services.AddScoped<IPublicInquiriesRepository, PublicInquiriesRepository>();
 builder.Services.AddScoped<IStationRepository, StationsRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeesRepository>();

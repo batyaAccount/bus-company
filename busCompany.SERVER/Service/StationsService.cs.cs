@@ -40,6 +40,11 @@ namespace busCompany.SERVICE.Service
 
         public bool Update(int id, Station station)
         {
+          
+            if (  GetAll().Count == 0)
+                return false;
+            if (_stationRepository.indexOf(id) == -1)
+                return false;
             return _stationRepository.Update(id,station);
         }
     }

@@ -2,6 +2,7 @@
 using busCompany.CORE.IRepository;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,11 +16,11 @@ namespace busCompany.DATA.Repository
         {
             _context = context;
         }
-        public List<Station> GetStations() { return _context.Stations; }
+        public List<Station> GetStations() { return _context.Stations.ToList(); }
         public Station getByIdStation(int id)
         {
 
-            return _context.Stations.Find(z => z.Id == id);
+            return _context.Stations.ToList().Find(z => z.Id == id);
 
         }
         public bool Add(Station station)
@@ -41,26 +42,33 @@ namespace busCompany.DATA.Repository
         }
         public bool Update(int id, Station station)
         {
-            Station s = _context.Stations.Find(b => b.Id == id);
-            if (s == null)
-                return false;
-            DeleteStation(id);
-            s.StationNumber = station.StationNumber;
-            s.Street = station.Street;
-            s.City = station.City;
-            s.Name = station.Name;
-            s.GpsWaypoint = station.GpsWaypoint;
-            s.Id = id;
-            s.Type = station.Type;
+            //The validate checking was done in the service
+            Station station1 = _context.Stations.ToList().Find(b => b.Id == id);
 
+            _ = station.GpsWaypoint != station1.GpsWaypoint && station.GpsWaypoint != null?
+              station1.GpsWaypoint = station.GpsWaypoint : station1.GpsWaypoint = station1.GpsWaypoint;
 
-            if (Add(s))
-                return true;
-            return false;
+            _ = station.Name != station1.Name && station.Name != null ?
+              station1.Name = station.Name : station1.Name = station1.Name;
+
+            _ = station.Street != station1.Street && station.Street != null ?
+              station1.Street = station.Street : station1.Street = station1.Street;
+
+            _ = station.City != station1.City && station.City != null ?
+              station1.City = station.City : station1.City = station1.City;
+
+            _ = station.StationNumber != station1.StationNumber && station.StationNumber != 0 ?
+              station1.StationNumber = station.StationNumber : station1.StationNumber = station1.StationNumber;
+
+            _ = station.Type != station1.Type && station.Type != null ?
+              station1.Type = station.Type : station1.Type = station1.Type;
+            _context.SaveChanges();
+
+            return true;
         }
         public bool DeleteStation(int id)
         {
-            List<Station> l = _context.Stations;
+            List<Station> l = _context.Stations.ToList();
 
             Station station = l.FirstOrDefault(e => e.Id == id);
 
@@ -73,6 +81,10 @@ namespace busCompany.DATA.Repository
 
             return false;
 
+        }
+        public int indexOf(int id)
+        {
+            return _context.Stations.ToList().FindIndex(b => b.Id == id);
         }
     }
 }

@@ -37,6 +37,14 @@ namespace busCompany.SERVICE.Service
 
         public bool Update(int id, Employee employee)
         {
+           
+            if (GetAll().Count == 0)
+                return false;
+            if (_employeeRepository.indexOf(id) == -1)
+                return false;
+            if (employee.Tz != null && !CheckIDNo(employee.Tz)||employee.PhoneNumber!=null&&employee.PhoneNumber.Length!=10)
+                return false;
+
             return _employeeRepository.Update(id, employee);
         }
         static bool CheckIDNo(string strID)

@@ -8,28 +8,28 @@ using System.Threading.Tasks;
 
 namespace busCompany.DATA.Repository
 {
-    public class PublicInquiriesRepository:IPublicInquiriesRepository
+    public class PublicInquiriesRepository : IPublicInquiriesRepository
     {
         readonly DataContext _context;
         public PublicInquiriesRepository(DataContext context)
         {
             _context = context;
         }
-        public List<PublicInquiries> GetPublicInquiries() { return _context.PublicInquiries; }
+        public List<PublicInquiries> GetPublicInquiries() { return _context.PublicInquiries.ToList(); }
         public PublicInquiries GetByIdPublicInquiry(int id)
         {
 
-            return _context.PublicInquiries.Find(z => z.Id == id);
+            return _context.PublicInquiries.ToList().Find(z => z.Id == id);
 
         }
         public bool Add(PublicInquiries publicInquiry)
         {
-           
+
             try
             {
                 _context.PublicInquiries.Add(publicInquiry);
                 _context.SaveChanges();
-           
+
                 return true;
             }
             catch
@@ -41,25 +41,36 @@ namespace busCompany.DATA.Repository
         }
         public bool Update(int id, PublicInquiries publicInquiry)
         {
-            PublicInquiries publicInquiry1 = _context.PublicInquiries.Find(b => b.Id == id);
-            if (publicInquiry1 == null)
-                return false;
-            DeletePublicInquiry(id);
-            publicInquiry1.Id = id;
-            publicInquiry1.Driver = publicInquiry.Driver;
-            publicInquiry1.Date = publicInquiry.Date;
-            publicInquiry1.Description = publicInquiry.Description;
-            publicInquiry1.CaredBy = publicInquiry.CaredBy;
-            publicInquiry1.Cared = publicInquiry.Cared;
-            publicInquiry1.ComplainerName = publicInquiry.ComplainerName;
-            publicInquiry1.PhoneNumber = publicInquiry.PhoneNumber;
-            if (Add(publicInquiry1))
-                return true;
-            return false;
+
+            //The validate checking was done in the service
+            PublicInquiries publicInquiry1 = _context.PublicInquiries.ToList().Find(b => b.Id == id);
+
+            _ = publicInquiry.ComplainerName != null && publicInquiry.ComplainerName != publicInquiry1.ComplainerName ?
+            publicInquiry1.ComplainerName = publicInquiry.ComplainerName : publicInquiry1.ComplainerName = publicInquiry1.ComplainerName;
+
+            _ = publicInquiry.Driver != 0 && publicInquiry.Driver != publicInquiry1.Driver ?
+            publicInquiry1.Driver = publicInquiry.Driver : publicInquiry1.Driver = publicInquiry1.Driver;
+
+            _ = publicInquiry.Cared != publicInquiry1.Cared ?
+              publicInquiry1.Cared = publicInquiry.Cared : publicInquiry1.Cared = publicInquiry1.Cared;
+
+            _ = publicInquiry.CaredBy != publicInquiry1.CaredBy && publicInquiry.CaredBy !=0?
+              publicInquiry1.CaredBy = publicInquiry.CaredBy : publicInquiry1.CaredBy = publicInquiry1.CaredBy;
+
+            _ = publicInquiry.Date != publicInquiry1.Date && publicInquiry.Date != DateTime.MinValue ?
+              publicInquiry1.Date = publicInquiry.Date : publicInquiry1.Date = publicInquiry1.Date;
+
+            _ = publicInquiry.Description != publicInquiry1.Description && publicInquiry.Description !=null?
+              publicInquiry1.Description = publicInquiry.Description : publicInquiry1.Description = publicInquiry1.Description;
+
+            _ = publicInquiry.PhoneNumber != publicInquiry1.PhoneNumber && publicInquiry.PhoneNumber != null ?
+              publicInquiry1.PhoneNumber = publicInquiry.PhoneNumber : publicInquiry1.PhoneNumber = publicInquiry1.PhoneNumber;
+            _context.SaveChanges();
+            return true;
         }
         public bool DeletePublicInquiry(int id)
         {
-            List<PublicInquiries> l = _context.PublicInquiries;
+            List<PublicInquiries> l = _context.PublicInquiries.ToList();
 
             PublicInquiries publicToDelete = l.FirstOrDefault(e => e.Id == id);
 
@@ -72,6 +83,10 @@ namespace busCompany.DATA.Repository
 
             return false;
 
+        }
+        public int indexOf(int id)
+        {
+            return _context.PublicInquiries.ToList().FindIndex(b => b.Id == id);
         }
     }
 }

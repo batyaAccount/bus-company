@@ -40,6 +40,10 @@ namespace busCompany.SERVICE.Service
 
         public bool Update(int id, Route route)
         {
+            if (GetAll().Count == 0)
+                return false;
+            if (_routeRepository.indexOf(id) == -1)
+                return false;
             return _routeRepository.Update(id, route);       
         }
     }
