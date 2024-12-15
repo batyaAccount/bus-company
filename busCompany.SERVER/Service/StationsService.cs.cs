@@ -28,7 +28,7 @@ namespace busCompany.SERVICE.Service
             return _stationRepository.DeleteStation(id);
         }
 
-        public List<Station> GetAll()
+        public IEnumerable<Station> GetAll()
         {
             return _stationRepository.GetStations();
         }
@@ -41,7 +41,7 @@ namespace busCompany.SERVICE.Service
         public bool Update(int id, Station station)
         {
           
-            if (  GetAll().Count == 0)
+            if (  GetAll().Count() == 0)
                 return false;
             if (_stationRepository.indexOf(id) == -1)
                 return false;

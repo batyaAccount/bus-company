@@ -18,7 +18,7 @@ namespace busCompany.API.Controllers
         }
         // GET: api/<RoutesController>
         [HttpGet]
-        public ActionResult<List<Core.Entity.Route>> Get()
+        public IEnumerable<Core.Entity.Route> Get()
         {
             return _routesService.GetAll();
         }

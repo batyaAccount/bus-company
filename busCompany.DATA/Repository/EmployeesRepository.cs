@@ -16,7 +16,7 @@ namespace busCompany.DATA.Repository
         {
             _context = context;
         }
-        public List<Employee> GetEmployees() { return _context.Employees.ToList(); }
+        public IEnumerable<Employee> GetEmployees() { return _context.Employees; }
         public Employee getByIdEmployees(int id)
         {
             return _context.Employees.ToList().Find(z => z.Id == id);
@@ -59,7 +59,7 @@ namespace busCompany.DATA.Repository
             _ = employee.StartDate != DateTime.MinValue && employee.StartDate != employee1.StartDate ?
             employee1.StartDate = employee.StartDate : employee1.StartDate = employee1.StartDate;
 
-            _ = employee.WorkType !=null && employee.WorkType != employee1.WorkType ?
+            _ = employee.WorkType != 0 && employee.WorkType != employee1.WorkType ?
             employee1.WorkType = employee.WorkType : employee1.WorkType = employee1.WorkType;
 
             _ = employee.PhoneNumber != null && employee.PhoneNumber != employee1.PhoneNumber ?

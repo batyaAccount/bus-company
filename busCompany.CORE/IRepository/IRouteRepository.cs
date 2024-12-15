@@ -9,7 +9,7 @@ namespace busCompany.CORE.IRepository
 {
     public interface IRouteRepository
     {
-        public List<Route> GetRoutes();
+        public IEnumerable<Route> GetRoutes();
         public Route GetByIdRoute(int id);
         public bool Add(Route route);
         public bool Update(int id, Route route);

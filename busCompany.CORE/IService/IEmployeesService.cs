@@ -9,7 +9,7 @@ namespace busCompany.CORE.IService
 {
     public interface IEmployeesService
     {
-        public List<Employee> GetAll();
+        public IEnumerable<Employee> GetAll();
         public Employee GetEmployee(int id);
         public bool Add(Employee employee);
         public bool Update(int id, Employee employee);

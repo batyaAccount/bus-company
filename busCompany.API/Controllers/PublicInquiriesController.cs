@@ -17,7 +17,7 @@ namespace busCompany.API.Controllers
         }
         // GET: api/<PublicInquiriesController>
         [HttpGet]
-        public ActionResult<List<PublicInquiries>> Get()
+        public IEnumerable<PublicInquiries> Get()
         {
             return _publicInquiriesService.GetAll();
 

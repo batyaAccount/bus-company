@@ -12,8 +12,8 @@ using busCompany.DATA;
 namespace busCompany.DATA.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241203161212_Init")]
-    partial class Init
+    [Migration("20241215171335_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,34 +26,35 @@ namespace busCompany.DATA.Migrations
 
             modelBuilder.Entity("busCompany.Core.Entity.Bus", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("BusId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BusId"), 1L, 1);
 
                     b.Property<int>("BusLine")
                         .HasColumnType("int");
 
-                    b.Property<string>("DestinationStation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("DestinationStationId")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<string>("SourceStation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("SourceStationId")
+                        .HasColumnType("int");
 
                     b.Property<int>("TravelTime")
                         .HasColumnType("int");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("BusId");
+
+                    b.HasIndex("DestinationStationId");
+
+                    b.HasIndex("SourceStationId");
 
                     b.ToTable("Buses");
                 });
@@ -67,7 +68,6 @@ namespace busCompany.DATA.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("AmountOfHours")
@@ -75,10 +75,10 @@ namespace busCompany.DATA.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Salary")
@@ -88,12 +88,10 @@ namespace busCompany.DATA.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Tz")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("WorkType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("WorkType")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -108,7 +106,7 @@ namespace busCompany.DATA.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool>("Cared")
+                    b.Property<bool?>("Cared")
                         .HasColumnType("bit");
 
                     b.Property<int>("CaredBy")
@@ -116,23 +114,25 @@ namespace busCompany.DATA.Migrations
 
                     b.Property<string>("ComplainerName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
-                    b.Property<int>("Driver")
+                    b.Property<int>("DriverId")
                         .HasColumnType("int");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DriverId");
 
                     b.ToTable("PublicInquiries");
                 });
@@ -148,7 +148,7 @@ namespace busCompany.DATA.Migrations
                     b.Property<int>("BusLineId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Driver")
+                    b.Property<int>("DriverId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("HourOfFirstBus")
@@ -160,10 +160,14 @@ namespace busCompany.DATA.Migrations
                     b.Property<int>("SourceStationId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Station")
+                    b.Property<int>("StationId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DriverId");
+
+                    b.HasIndex("StationId");
 
                     b.ToTable("Routes");
                 });
@@ -177,31 +181,77 @@ namespace busCompany.DATA.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GpsWaypoint")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("StationNumber")
                         .HasColumnType("int");
 
                     b.Property<string>("Street")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("Stations");
+                });
+
+            modelBuilder.Entity("busCompany.Core.Entity.Bus", b =>
+                {
+                    b.HasOne("busCompany.Core.Entity.Station", "DestinationStation")
+                        .WithMany()
+                        .HasForeignKey("DestinationStationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("busCompany.Core.Entity.Station", "SourceStation")
+                        .WithMany()
+                        .HasForeignKey("SourceStationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DestinationStation");
+
+                    b.Navigation("SourceStation");
+                });
+
+            modelBuilder.Entity("busCompany.Core.Entity.PublicInquiries", b =>
+                {
+                    b.HasOne("busCompany.Core.Entity.Employee", "Driver")
+                        .WithMany()
+                        .HasForeignKey("DriverId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Driver");
+                });
+
+            modelBuilder.Entity("busCompany.Core.Entity.Route", b =>
+                {
+                    b.HasOne("busCompany.Core.Entity.Employee", "Driver")
+                        .WithMany()
+                        .HasForeignKey("DriverId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("busCompany.Core.Entity.Station", "Station")
+                        .WithMany()
+                        .HasForeignKey("StationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Driver");
+
+                    b.Navigation("Station");
                 });
 #pragma warning restore 612, 618
         }

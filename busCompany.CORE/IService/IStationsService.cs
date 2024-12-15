@@ -9,7 +9,7 @@ namespace busCompany.CORE.IService
 {
     public interface IStationsService
     {
-        public List<Station> GetAll();
+        public IEnumerable<Station> GetAll();
         public Station GetStation(int id);
         public bool Add(Station station);
         public bool Update(int id, Station station);

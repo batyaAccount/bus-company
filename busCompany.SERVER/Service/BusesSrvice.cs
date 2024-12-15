@@ -22,7 +22,7 @@ namespace busCompany.SERVICE.Service
         }
         public bool Add(Bus bus)
         {
-            if (GetBus(bus.Id) != null)
+            if (GetBus(bus.BusId) != null)
                 return false;
             return _busesRepository.Add(bus);
         }
@@ -32,7 +32,7 @@ namespace busCompany.SERVICE.Service
             return _busesRepository.DeleteBus(id);
         }
 
-        public List<Bus> GetAll()
+        public IEnumerable<Bus> GetAll()
         {
             return _busesRepository.GetBuses();
         }
@@ -40,7 +40,7 @@ namespace busCompany.SERVICE.Service
         public bool Update(int id, Bus employee)
         {
           
-            if (GetAll().Count == 0)
+            if (GetAll().Count() == 0)
                 return false;
             if (_busesRepository.indexOf(id)==-1)
                 return false;

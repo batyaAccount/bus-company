@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace busCompany.Core.Entity
 {
-    public enum workingType { driver, officeEmployee, cleaner }
+    public enum workingType { driver = 1, officeEmployee = 2, cleaner = 3 }
 
     public class Employee
     {
@@ -16,28 +16,14 @@ namespace busCompany.Core.Entity
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
-        public string Tz { get; set; }
-        public string Address { get; set; }
-        public string PhoneNumber { get; set; }
-        public string WorkType { get; set; }
+        public string? Tz { get; set; }
+        public string? Address { get; set; }
+        public string? PhoneNumber { get; set; }
+        public int WorkType { get; set; }
         public int AmountOfHours { get; set; }
         public int Salary { get; set; }
         public DateTime StartDate { get; set; }
 
-        public Employee(int id, string name, string tz, string address, string phoneNumber, string workerType, int amountOfHours, int salary, DateTime startDate)
-        {
-            this.Id = id;
-            this.Name = name;
-            this.Tz = tz;
-            this.Address = address;
-            this.PhoneNumber = phoneNumber;
-            this.WorkType = workerType;
-            this.AmountOfHours = amountOfHours;
-            this.Salary = salary;
-            this.StartDate = startDate;
-        }
-        public Employee()
-        {
-        }
+
     }
 }

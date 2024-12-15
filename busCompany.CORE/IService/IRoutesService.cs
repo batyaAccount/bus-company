@@ -9,7 +9,7 @@ namespace busCompany.CORE.IService
 {
     public interface IRoutesService
     {
-        public List<Route> GetAll();
+        public IEnumerable<Route> GetAll();
         public Route GetRoute(int id);
         public bool Add(Route route);
         public bool Update(int id, Route route);

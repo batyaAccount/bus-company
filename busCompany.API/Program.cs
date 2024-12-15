@@ -20,6 +20,15 @@ builder.Services.AddDbContext<DataContext>(option =>
     {
         option.UseSqlServer("Data Source=DESKTOP-SSNMLFD;Initial Catalog=bus-company;Integrated Security=true;");
     });
+builder.Services.AddControllers().AddJsonOptions(options =>//dont be cycle
+        {
+            options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+        });
+builder.Services.AddControllers()//ignore the $id
+        .AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+        });
 //service
 builder.Services.AddScoped<IBusesService, BusesSrvice>();
 builder.Services.AddScoped<IEmployeesService, EmployeesService>();

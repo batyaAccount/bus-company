@@ -9,7 +9,7 @@ namespace busCompany.CORE.IRepository
 {
     public interface IStationRepository
     {
-        public List<Station> GetStations();
+        public IEnumerable<Station> GetStations();
         public Station getByIdStation(int id);
         public bool Add(Station station);
         public bool Update(int id, Station station);

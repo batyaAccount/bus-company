@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Microsoft.EntityFrameworkCore;
 namespace busCompany.DATA.Repository
 {
     public class BusesRepository : IBusesRepository
@@ -16,17 +16,18 @@ namespace busCompany.DATA.Repository
         {
             _context = context;
         }
-        public List<Bus> GetBuses() { return _context.Buses.ToList(); }
+        public IEnumerable<Bus> GetBuses() { return _context.Buses.Include(b => b.SourceStation).Include(b=>b.DestinationStation); }
         public Bus GetByIdBus(int id)
         {
 
-            return _context.Buses.ToList().Find(z => z.Id == id);
+            return _context.Buses.ToList().Find(z => z.BusId == id);
 
         }
         public bool Add(Bus bus)
         {
             try
             {
+               
                 _context.Buses.Add(bus);
                 _context.SaveChanges();
                 return true;
@@ -39,7 +40,7 @@ namespace busCompany.DATA.Repository
         public bool Update(int id, Bus bus)
         {
             //The validate checking was done in the service
-            Bus bus1  = _context.Buses.ToList().Find(b => b.Id == id);
+            Bus bus1  = _context.Buses.ToList().Find(b => b.BusId == id);
 
             _ = bus.BusLine != 0 && bus.BusLine != bus1.BusLine ?
             bus1.BusLine = bus.BusLine : bus1.BusLine = bus1.BusLine;
@@ -47,16 +48,16 @@ namespace busCompany.DATA.Repository
             _ = bus.TravelTime != 0 && bus.TravelTime != bus1.TravelTime ?
             bus1.TravelTime = bus.TravelTime : bus1.TravelTime = bus1.TravelTime;
 
-            _ = bus.IsActive != bus1.IsActive ?
+            _ = bus.IsActive != bus1.IsActive && bus.IsActive!= null?
           bus1.IsActive = bus.IsActive : bus1.IsActive = bus1.IsActive;
 
-            _ = bus.DestinationStation != null && bus.DestinationStation != bus1.DestinationStation ?
-          bus1.DestinationStation = bus.DestinationStation : bus1.DestinationStation = bus1.DestinationStation;
+            _ = bus.DestinationStationId != 0 && bus.DestinationStationId != bus1.DestinationStationId ?
+          bus1.DestinationStationId = bus.DestinationStationId : bus1.DestinationStationId = bus1.DestinationStationId;
 
-            _ = bus.SourceStation != null && bus.SourceStation != bus1.SourceStation ?
+            _ = bus.SourceStationId != 0 && bus.SourceStationId != bus1.SourceStationId ?
           bus1.SourceStation = bus.SourceStation : bus1.SourceStation = bus1.SourceStation;
 
-            _ = bus.Type != null && bus.Type != bus1.Type ?
+            _ = bus.Type != 0 && bus.Type != bus1.Type ?
         bus1.Type = bus.Type : bus1.Type = bus1.Type;
           _context.SaveChanges();
             return true;
@@ -65,7 +66,7 @@ namespace busCompany.DATA.Repository
         {
             List<Bus> l = _context.Buses.ToList();
 
-            Bus employeeToDelete = l.FirstOrDefault(e => e.Id == id);
+            Bus employeeToDelete = l.FirstOrDefault(e => e.BusId == id);
 
             if (employeeToDelete != null)
             {
@@ -80,7 +81,7 @@ namespace busCompany.DATA.Repository
 
         public int indexOf(int id)
         {
-            return _context.Buses.ToList().FindIndex(b => b.Id == id);
+            return _context.Buses.ToList().FindIndex(b => b.BusId == id);
         }
 
     }

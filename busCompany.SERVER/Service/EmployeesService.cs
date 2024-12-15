@@ -25,7 +25,7 @@ namespace busCompany.SERVICE.Service
             return _employeeRepository.DeleteEmployees(id);
         }
 
-        public List<Employee> GetAll()
+        public IEnumerable<Employee> GetAll()
         {
           return  _employeeRepository.GetEmployees();
         }
@@ -38,7 +38,7 @@ namespace busCompany.SERVICE.Service
         public bool Update(int id, Employee employee)
         {
            
-            if (GetAll().Count == 0)
+            if (GetAll().Count() == 0)
                 return false;
             if (_employeeRepository.indexOf(id) == -1)
                 return false;

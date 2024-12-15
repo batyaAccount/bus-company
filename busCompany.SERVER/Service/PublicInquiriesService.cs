@@ -28,7 +28,7 @@ namespace busCompany.SERVICE.Service
             return _publicInquiriesRepository.DeletePublicInquiry(id);
         }
 
-        public List<PublicInquiries> GetAll()
+        public IEnumerable<PublicInquiries> GetAll()
         {
             return _publicInquiriesRepository.GetPublicInquiries();
         }
@@ -41,7 +41,7 @@ namespace busCompany.SERVICE.Service
         public bool Update(int id, PublicInquiries publicInquiries)
         {
          
-            if (  GetAll().Count == 0)
+            if (  GetAll().Count() == 0)
                 return false;
             if (_publicInquiriesRepository.indexOf(id) == -1) return false;
             return _publicInquiriesRepository.Update(id,publicInquiries);

@@ -9,7 +9,7 @@ namespace busCompany.CORE.IRepository
 {
     public interface IPublicInquiriesRepository
     {
-        public List<PublicInquiries> GetPublicInquiries();
+        public IEnumerable<PublicInquiries> GetPublicInquiries();
         public int indexOf(int id);
 
         public PublicInquiries GetByIdPublicInquiry(int id);

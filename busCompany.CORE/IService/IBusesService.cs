@@ -10,7 +10,7 @@ namespace busCompany.CORE.IService
     public interface IBusesService
     {
 
-        public List<Bus> GetAll();
+        public IEnumerable<Bus> GetAll();
         public Bus GetBus(int id);
         public bool Add(Bus employee);
         public bool Update(int id, Bus employee);

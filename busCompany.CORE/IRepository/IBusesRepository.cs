@@ -9,7 +9,7 @@ namespace busCompany.CORE.IRepository
 {
     public interface IBusesRepository
     {
-        public List<Bus> GetBuses();
+        public IEnumerable<Bus> GetBuses();
         public Bus GetByIdBus(int bus);
         public bool Add(Bus bus);
         public bool Update(int id, Bus bus);

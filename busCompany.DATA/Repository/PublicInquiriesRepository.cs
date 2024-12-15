@@ -1,5 +1,6 @@
 ﻿using busCompany.Core.Entity;
 using busCompany.CORE.IRepository;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace busCompany.DATA.Repository
         {
             _context = context;
         }
-        public List<PublicInquiries> GetPublicInquiries() { return _context.PublicInquiries.ToList(); }
+        public IEnumerable<PublicInquiries> GetPublicInquiries() { return _context.PublicInquiries.Include(p=>p.Driver); }
         public PublicInquiries GetByIdPublicInquiry(int id)
         {
 
@@ -48,7 +49,7 @@ namespace busCompany.DATA.Repository
             _ = publicInquiry.ComplainerName != null && publicInquiry.ComplainerName != publicInquiry1.ComplainerName ?
             publicInquiry1.ComplainerName = publicInquiry.ComplainerName : publicInquiry1.ComplainerName = publicInquiry1.ComplainerName;
 
-            _ = publicInquiry.Driver != 0 && publicInquiry.Driver != publicInquiry1.Driver ?
+            _ = publicInquiry.DriverId != 0 && publicInquiry.DriverId != publicInquiry1.DriverId ?
             publicInquiry1.Driver = publicInquiry.Driver : publicInquiry1.Driver = publicInquiry1.Driver;
 
             _ = publicInquiry.Cared != publicInquiry1.Cared ?

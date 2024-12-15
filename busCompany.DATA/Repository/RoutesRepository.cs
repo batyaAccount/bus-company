@@ -1,5 +1,6 @@
 ﻿using busCompany.Core.Entity;
 using busCompany.CORE.IRepository;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace busCompany.DATA.Repository
         {
             _context = context;
         }
-        public List<Route> GetRoutes() { return _context.Routes.ToList(); }
+        public IEnumerable<Route> GetRoutes() { return _context.Routes.Include(p => p.Driver).Include(p=>p.Station); }
         public Route GetByIdRoute(int id)
         {
 
@@ -48,7 +49,7 @@ namespace busCompany.DATA.Repository
             _ = route.SourceStationId != route1.SourceStationId && route.SourceStationId != 0 ?
               route1.SourceStationId = route.SourceStationId : route1.SourceStationId = route1.SourceStationId;
 
-            _ = route.Station != route1.Station && route.Station != 0 ?
+            _ = route.StationId != route1.StationId && route.StationId != 0 ?
               route1.Station = route.Station : route1.Station = route1.Station;
 
             _ = route.BusLineId != route1.BusLineId && route.BusLineId != 0 ?
@@ -60,10 +61,12 @@ namespace busCompany.DATA.Repository
             _ = route.HourOfLastBus != route1.HourOfLastBus && route.HourOfLastBus != DateTime.MinValue ?
               route1.HourOfLastBus = route.HourOfLastBus : route1.HourOfLastBus = route1.HourOfLastBus;
 
-            _ = route.Driver != route1.Driver && route.Driver != 0 ?
+            _ = route.DriverId != route1.DriverId && route.DriverId != 0 ?
               route1.Driver = route.Driver : route1.Driver = route1.Driver;
 
-           _context.SaveChanges();
+         
+
+            _context.SaveChanges();
             return true;
         }
         public bool DeleteRoute(int id)

@@ -16,8 +16,8 @@ namespace busCompany.DATA
         public DbSet<PublicInquiries> PublicInquiries { get; set; } 
         public DbSet<Station> Stations { get; set; } 
         public DbSet<Route> Routes { get; set; }
-
        
+
 
     }
 }

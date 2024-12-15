@@ -16,7 +16,7 @@ namespace busCompany.DATA.Repository
         {
             _context = context;
         }
-        public List<Station> GetStations() { return _context.Stations.ToList(); }
+        public IEnumerable<Station> GetStations() { return _context.Stations; }
         public Station getByIdStation(int id)
         {
 
@@ -60,7 +60,7 @@ namespace busCompany.DATA.Repository
             _ = station.StationNumber != station1.StationNumber && station.StationNumber != 0 ?
               station1.StationNumber = station.StationNumber : station1.StationNumber = station1.StationNumber;
 
-            _ = station.Type != station1.Type && station.Type != null ?
+            _ = station.Type != station1.Type && station.Type != 0 ?
               station1.Type = station.Type : station1.Type = station1.Type;
             _context.SaveChanges();
 

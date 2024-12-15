@@ -28,7 +28,7 @@ namespace busCompany.SERVICE.Service
             return _routeRepository.DeleteRoute(id);
         }
 
-        public List<Route> GetAll()
+        public IEnumerable<Route> GetAll()
         {
             return _routeRepository.GetRoutes();
         }
@@ -40,7 +40,7 @@ namespace busCompany.SERVICE.Service
 
         public bool Update(int id, Route route)
         {
-            if (GetAll().Count == 0)
+            if (GetAll().Count() == 0)
                 return false;
             if (_routeRepository.indexOf(id) == -1)
                 return false;

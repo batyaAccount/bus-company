@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace busCompany.Core.Entity
 {
-    public enum typeOfStstion { urban, interstate }
+    public enum typeOfStstion { urban = 1, interstate = 2 }
 
     public class Station
     {
@@ -16,25 +16,12 @@ namespace busCompany.Core.Entity
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
-        public string City { get; set; }
-        public string Street { get; set; }
+        public string? City { get; set; }
+        public string? Street { get; set; }
         public int StationNumber { get; set; }
-        public string GpsWaypoint { get; set; }
-        public string Type { get; set; }
+        public string? GpsWaypoint { get; set; }
+        public int Type { get; set; }
 
-        public Station(int id, string name, string city, string street, int stationNumber, string gpsWaypoint, string type)
-        {
-            Id = id;
-            Name = name;
-            City = city;
-            Street = street;
-            StationNumber = stationNumber;
-            GpsWaypoint = gpsWaypoint;
-            this.Type = type;
-        }
-
-        public Station()
-        {
-        }
     }
+
 }

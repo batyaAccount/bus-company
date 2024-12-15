@@ -11,7 +11,7 @@ namespace busCompany.Core.IRepository
     {
         public int indexOf(int id);
 
-        public List<Employee> GetEmployees();
+        public IEnumerable<Employee> GetEmployees();
         public Employee getByIdEmployees(int id);
         public bool Add(Employee employee);
         public bool Update(int id, Employee employee);
