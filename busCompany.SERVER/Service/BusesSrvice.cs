@@ -11,40 +11,49 @@ namespace busCompany.SERVICE.Service
 {
     public class BusesSrvice : IBusesService
     {
-        readonly IBusesRepository _busesRepository;
-        public BusesSrvice(IBusesRepository busesRepository)
+        readonly IRepositoryMamager _Repository;
+        public BusesSrvice(IRepositoryMamager busesRepository)
         {
-            _busesRepository = busesRepository;
+            _Repository = busesRepository;
         }
         public Bus GetBus(int id)
         {
-            return _busesRepository.GetByIdBus(id);
+            return _Repository.Buses.GetByIdBus(id);
         }
         public bool Add(Bus bus)
         {
             if (GetBus(bus.BusId) != null)
                 return false;
-            return _busesRepository.Add(bus);
+            bool flag = _Repository.Buses.Add(bus);
+            if (flag)
+                _Repository.Save();
+            return flag;
         }
 
         public bool DeleteOne(int id)
         {
-            return _busesRepository.DeleteBus(id);
+            bool flag = _Repository.Buses.DeleteBus(id);
+            if (flag)
+                _Repository.Save();
+            return flag;
         }
 
         public IEnumerable<Bus> GetAll()
         {
-            return _busesRepository.GetBuses();
+            return _Repository.Buses.GetBuses();
         }
 
         public bool Update(int id, Bus employee)
         {
-          
+
             if (GetAll().Count() == 0)
                 return false;
-            if (_busesRepository.indexOf(id)==-1)
+            if (_Repository.Buses.indexOf(id) == -1)
                 return false;
-            return _busesRepository.Update(id, employee);
+            bool flag = _Repository.Buses.Update(id, employee);
+            if (flag)
+                _Repository.Save();
+            return flag;
         }
     }
 }

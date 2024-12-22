@@ -11,8 +11,8 @@ namespace busCompany.SERVICE.Service
 {
     public class StationsService : IStationsService
     {
-        readonly IStationRepository _stationRepository;
-        public StationsService(IStationRepository stationRepository)
+        readonly IRepositoryMamager _stationRepository;
+        public StationsService(IRepositoryMamager stationRepository)
         {
             _stationRepository = stationRepository;
         }
@@ -20,22 +20,28 @@ namespace busCompany.SERVICE.Service
         {
             if (GetStation(station.Id) != null)
                 return false;
-            return  _stationRepository.Add(station);
+            bool flag = _stationRepository.Stations.Add(station);
+            if (flag)
+                _stationRepository.Save();
+            return flag;
         }
 
         public bool DeleteOne(int id)
         {
-            return _stationRepository.DeleteStation(id);
+            bool flag = _stationRepository.Stations.DeleteStation(id);
+            if(flag)
+                _stationRepository.Save();
+            return flag;
         }
 
         public IEnumerable<Station> GetAll()
         {
-            return _stationRepository.GetStations();
+            return _stationRepository.Stations.GetStations();
         }
 
         public Station GetStation(int id)
         {
-            return _stationRepository.getByIdStation(id);
+            return _stationRepository.Stations.getByIdStation(id);
         }
 
         public bool Update(int id, Station station)
@@ -43,9 +49,12 @@ namespace busCompany.SERVICE.Service
           
             if (  GetAll().Count() == 0)
                 return false;
-            if (_stationRepository.indexOf(id) == -1)
+            if (_stationRepository.Stations.indexOf(id) == -1)
                 return false;
-            return _stationRepository.Update(id,station);
+            bool flag = _stationRepository.Stations.Update(id,station);
+            if(flag)
+                _stationRepository.Save();
+            return flag;
         }
     }
 }

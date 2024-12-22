@@ -29,7 +29,7 @@ namespace busCompany.DATA.Repository
             {
                
                 _context.Buses.Add(bus);
-                _context.SaveChanges();
+              
                 return true;
             }
             catch
@@ -59,7 +59,7 @@ namespace busCompany.DATA.Repository
 
             _ = bus.Type != 0 && bus.Type != bus1.Type ?
         bus1.Type = bus.Type : bus1.Type = bus1.Type;
-          _context.SaveChanges();
+        
             return true;
         }
         public bool DeleteBus(int id)
@@ -71,7 +71,7 @@ namespace busCompany.DATA.Repository
             if (employeeToDelete != null)
             {
                 _context.Buses.Remove(employeeToDelete);
-                _context.SaveChanges();
+               
                 return true;
             }
             return false;

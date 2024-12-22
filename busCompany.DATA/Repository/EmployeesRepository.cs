@@ -27,7 +27,6 @@ namespace busCompany.DATA.Repository
             try
             {
                 _context.Employees.Add(employee);
-                _context.SaveChanges();
                 return true;
             }
             catch
@@ -65,7 +64,6 @@ namespace busCompany.DATA.Repository
             _ = employee.PhoneNumber != null && employee.PhoneNumber != employee1.PhoneNumber ?
             employee1.PhoneNumber = employee.PhoneNumber : employee1.PhoneNumber = employee1.PhoneNumber;
 
-           _context.SaveChanges();
             return true;
         }
         public bool DeleteEmployees(int id)
@@ -78,7 +76,6 @@ namespace busCompany.DATA.Repository
             if (employeeToDelete != null)
             {
                 _context.Employees.Remove(employeeToDelete);
-                _context.SaveChanges();
                 return true;
             }
 

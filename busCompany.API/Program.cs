@@ -16,6 +16,8 @@ builder.Services.AddScoped<busCompany.Core.Entity.Route>();
 builder.Services.AddScoped<Employee>();
 builder.Services.AddScoped<PublicInquiries>();
 builder.Services.AddScoped<Station>();
+builder.Services.AddScoped<IRepositoryMamager, RepositoryManager>();
+
 builder.Services.AddDbContext<DataContext>(option =>
     {
         option.UseSqlServer("Data Source=DESKTOP-SSNMLFD;Initial Catalog=bus-company;Integrated Security=true;");

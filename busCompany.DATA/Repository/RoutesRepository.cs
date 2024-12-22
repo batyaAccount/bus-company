@@ -29,8 +29,6 @@ namespace busCompany.DATA.Repository
             try
             {
                 _context.Routes.Add(route);
-                _context.SaveChanges();
-               
                 return true;
             }
             catch
@@ -63,10 +61,6 @@ namespace busCompany.DATA.Repository
 
             _ = route.DriverId != route1.DriverId && route.DriverId != 0 ?
               route1.Driver = route.Driver : route1.Driver = route1.Driver;
-
-         
-
-            _context.SaveChanges();
             return true;
         }
         public bool DeleteRoute(int id)
@@ -78,7 +72,6 @@ namespace busCompany.DATA.Repository
             if (publicToDelete != null)
             {
                 _context.Routes.Remove(publicToDelete);
-                _context.SaveChanges();
                 return true;
             }
 

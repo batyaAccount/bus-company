@@ -29,8 +29,6 @@ namespace busCompany.DATA.Repository
             try
             {
                 _context.PublicInquiries.Add(publicInquiry);
-                _context.SaveChanges();
-
                 return true;
             }
             catch
@@ -66,7 +64,6 @@ namespace busCompany.DATA.Repository
 
             _ = publicInquiry.PhoneNumber != publicInquiry1.PhoneNumber && publicInquiry.PhoneNumber != null ?
               publicInquiry1.PhoneNumber = publicInquiry.PhoneNumber : publicInquiry1.PhoneNumber = publicInquiry1.PhoneNumber;
-            _context.SaveChanges();
             return true;
         }
         public bool DeletePublicInquiry(int id)
@@ -78,7 +75,6 @@ namespace busCompany.DATA.Repository
             if (publicToDelete != null)
             {
                 _context.PublicInquiries.Remove(publicToDelete);
-                _context.SaveChanges();
                 return true;
             }
 

@@ -29,8 +29,6 @@ namespace busCompany.DATA.Repository
             try
             {
                 _context.Stations.Add(station);
-                _context.SaveChanges();
-              
                 return true;
             }
             catch
@@ -62,8 +60,6 @@ namespace busCompany.DATA.Repository
 
             _ = station.Type != station1.Type && station.Type != 0 ?
               station1.Type = station.Type : station1.Type = station1.Type;
-            _context.SaveChanges();
-
             return true;
         }
         public bool DeleteStation(int id)
@@ -75,7 +71,6 @@ namespace busCompany.DATA.Repository
             if (station != null)
             {
                 _context.Stations.Remove(station);
-                _context.SaveChanges();
                 return true;
             }
 

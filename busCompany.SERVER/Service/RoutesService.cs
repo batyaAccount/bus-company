@@ -11,8 +11,8 @@ namespace busCompany.SERVICE.Service
 {
     public class RoutesService : IRoutesService
     {
-        readonly IRouteRepository _routeRepository;
-        public RoutesService(IRouteRepository routeRepository)
+        readonly IRepositoryMamager _routeRepository;
+        public RoutesService(IRepositoryMamager routeRepository)
         {
             _routeRepository = routeRepository;
         }
@@ -20,31 +20,40 @@ namespace busCompany.SERVICE.Service
         {
             if (GetRoute(route.Id) != null)
                 return false;
-            return _routeRepository.Add(route);
+            bool flag = _routeRepository.Routes.Add(route);
+            if (flag)
+                _routeRepository.Save();
+            return flag;
         }
 
         public bool DeleteOne(int id)
         {
-            return _routeRepository.DeleteRoute(id);
+            bool flag = _routeRepository.Routes.DeleteRoute(id);
+            if (flag)
+                _routeRepository.Save();
+            return flag;
         }
 
         public IEnumerable<Route> GetAll()
         {
-            return _routeRepository.GetRoutes();
+            return _routeRepository.Routes.GetRoutes();
         }
 
         public Route GetRoute(int id)
         {
-            return _routeRepository.GetByIdRoute(id);
+            return _routeRepository.Routes.GetByIdRoute(id);
         }
 
         public bool Update(int id, Route route)
         {
             if (GetAll().Count() == 0)
                 return false;
-            if (_routeRepository.indexOf(id) == -1)
+            if (_routeRepository.Routes.indexOf(id) == -1)
                 return false;
-            return _routeRepository.Update(id, route);       
+            bool flag = _routeRepository.Routes.Update(id, route);
+            if (flag)
+                _routeRepository.Save();
+            return flag;
         }
     }
 }

@@ -1,13 +1,14 @@
 ﻿using busCompany.Core.Entity;
 using busCompany.Core.IRepository;
+using busCompany.CORE.IRepository;
 using busCompany.CORE.IService;
 
 namespace busCompany.SERVICE.Service
 {
     public class EmployeesService : IEmployeesService
     {
-        readonly IEmployeeRepository _employeeRepository;
-        public EmployeesService(IEmployeeRepository employeeRepository)
+        readonly IRepositoryMamager _employeeRepository;
+        public EmployeesService(IRepositoryMamager employeeRepository)
         {
             _employeeRepository = employeeRepository;
         }
@@ -17,35 +18,44 @@ namespace busCompany.SERVICE.Service
                 return false;
             if (employee.PhoneNumber.Length != 10 || CheckIDNo(employee.Tz) == false)
                 return false;
-            return _employeeRepository.Add(employee);
+            bool flag = _employeeRepository.Employees.Add(employee);
+            if (flag)
+                _employeeRepository.Save();
+            return flag;
         }
 
         public bool DeleteOne(int id)
         {
-            return _employeeRepository.DeleteEmployees(id);
+            bool flag = _employeeRepository.Employees.DeleteEmployees(id);
+            if (flag)
+                _employeeRepository.Save();
+            return flag;
         }
 
         public IEnumerable<Employee> GetAll()
         {
-          return  _employeeRepository.GetEmployees();
+            return _employeeRepository.Employees.GetEmployees();
         }
 
         public Employee GetEmployee(int id)
         {
-            return _employeeRepository.getByIdEmployees(id);
+            return _employeeRepository.Employees.getByIdEmployees(id);
         }
 
         public bool Update(int id, Employee employee)
         {
-           
+
             if (GetAll().Count() == 0)
                 return false;
-            if (_employeeRepository.indexOf(id) == -1)
+            if (_employeeRepository.Employees.indexOf(id) == -1)
                 return false;
-            if (employee.Tz != null && !CheckIDNo(employee.Tz)||employee.PhoneNumber!=null&&employee.PhoneNumber.Length!=10)
+            if (employee.Tz != null && !CheckIDNo(employee.Tz) || employee.PhoneNumber != null && employee.PhoneNumber.Length != 10)
                 return false;
 
-            return _employeeRepository.Update(id, employee);
+            bool flag = _employeeRepository.Employees.Update(id, employee);
+            if (flag)
+                _employeeRepository.Save();
+            return flag;
         }
         static bool CheckIDNo(string strID)
         {
