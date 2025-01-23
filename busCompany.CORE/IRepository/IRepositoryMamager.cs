@@ -1,4 +1,6 @@
-﻿using busCompany.Core.IRepository;
+﻿using busCompany.Core.Entity;
+using busCompany.Core.IRepository;
+using busCompany.CORE.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +12,11 @@ namespace busCompany.CORE.IRepository
     public interface IRepositoryMamager
     {
 
-        IBusesRepository Buses { get; }
-        IEmployeeRepository Employees { get; }
-        IPublicInquiriesRepository PublicInquiries { get; }
-        IRouteRepository Routes { get; }
-        IStationRepository Stations { get; }
+        IRepository<Bus> Buses { get; }
+        IRepository<Employee> Employees { get; }
+        IRepository<PublicInquiries> PublicInquiries { get; }
+        IRepository<Route> Routes { get; }
+        IRepository<Station> Stations { get; }
 
         void Save();
 

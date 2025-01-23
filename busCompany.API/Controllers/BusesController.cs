@@ -38,11 +38,11 @@ namespace busCompany.API.Controllers
 
         // POST api/<BusesController>
         [HttpPost]
-        public ActionResult Post([FromBody] Bus bus)
+        public ActionResult<Bus> Post([FromBody] Bus bus)
         {
-            bool b = _busesService.Add(bus);
-            if (b == false)
-                return NotFound(false);
+            Bus b = _busesService.Add(bus);
+            if (b == null)
+                return BadRequest();
             return Ok(b);
         }
 

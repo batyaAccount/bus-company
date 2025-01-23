@@ -39,10 +39,10 @@ namespace busCompany.API.Controllers
 
         // POST api/<BusesController>
         [HttpPost]
-        public ActionResult Post([FromBody] PublicInquiries bus)
+        public ActionResult<PublicInquiries> Post([FromBody] PublicInquiries bus)
         {
-            bool b = _publicInquiriesService.Add(bus);
-            if (b == false)
+            PublicInquiries b = _publicInquiriesService.Add(bus);
+            if (b == null)
                 return BadRequest();
             return Ok(b);
         }

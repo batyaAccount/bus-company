@@ -11,37 +11,41 @@ namespace busCompany.SERVICE.Service
 {
     public class PublicInquiriesService : IPublicInquiriesService
     {
-        readonly IRepositoryMamager _publicInquiriesRepository;
-        public PublicInquiriesService(IRepositoryMamager publicInquiriesRepository)
+        readonly IRepositoryMamager _repositoryMamager;
+        readonly IPublicInquiriesRepository _publicInquiriesRepository;
+        public PublicInquiriesService(IRepositoryMamager repositoryMamager, IPublicInquiriesRepository publicInquiriesRepository)
         {
+            _repositoryMamager = repositoryMamager;
             _publicInquiriesRepository = publicInquiriesRepository;
+
+
         }
-        public bool Add(PublicInquiries publicInquiry)
+        public PublicInquiries Add(PublicInquiries publicInquiry)
         {
             if (GetPublicInquiry(publicInquiry.Id) != null)
-                return false;
-            bool flag = _publicInquiriesRepository.PublicInquiries.Add(publicInquiry);
-            if (flag)
-                _publicInquiriesRepository.Save();
-            return flag;
+                return null;
+             _publicInquiriesRepository.Add(publicInquiry);
+            _repositoryMamager.Save();
+            return publicInquiry;
         }
 
         public bool DeleteOne(int id)
         {
-            bool flag = _publicInquiriesRepository.PublicInquiries.DeletePublicInquiry(id);
-            if (flag)
-                _publicInquiriesRepository.Save();
-            return flag;
+            if(_publicInquiriesRepository.indexOf(id) == -1) 
+                return false;
+            _publicInquiriesRepository.Delete(id);
+            _repositoryMamager.Save();
+            return true;
         }
 
         public IEnumerable<PublicInquiries> GetAll()
         {
-            return _publicInquiriesRepository.PublicInquiries.GetPublicInquiries();
+            return _publicInquiriesRepository.Get().ToList();
         }
 
         public PublicInquiries GetPublicInquiry(int id)
         {
-            return _publicInquiriesRepository.PublicInquiries.GetByIdPublicInquiry(id);
+            return _publicInquiriesRepository.GetById(id);
         }
 
         public bool Update(int id, PublicInquiries publicInquiries)
@@ -49,10 +53,10 @@ namespace busCompany.SERVICE.Service
 
             if (GetAll().Count() == 0)
                 return false;
-            if (_publicInquiriesRepository.PublicInquiries.indexOf(id) == -1) return false;
-            bool flag = _publicInquiriesRepository.PublicInquiries.Update(id, publicInquiries);
+            if (_publicInquiriesRepository.indexOf(id) == -1) return false;
+            bool flag = _publicInquiriesRepository.Update(id, publicInquiries);
             if (flag)
-                _publicInquiriesRepository.Save();
+                _repositoryMamager.Save();
             return flag;
         }
     }

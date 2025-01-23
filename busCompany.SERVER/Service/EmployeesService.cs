@@ -7,39 +7,42 @@ namespace busCompany.SERVICE.Service
 {
     public class EmployeesService : IEmployeesService
     {
-        readonly IRepositoryMamager _employeeRepository;
-        public EmployeesService(IRepositoryMamager employeeRepository)
+        readonly IRepositoryMamager _repositoryMamager;
+        readonly IEmployeeRepository _employeeRepository;
+        public EmployeesService(IRepositoryMamager repositoryMamager,IEmployeeRepository employeeRepository)
         {
+            _repositoryMamager = repositoryMamager;
             _employeeRepository = employeeRepository;
+
         }
-        public bool Add(Employee employee)
+        public Employee Add(Employee employee)
         {
             if (GetEmployee(employee.Id) != null)
-                return false;
+                return null;
             if (employee.PhoneNumber.Length != 10 || CheckIDNo(employee.Tz) == false)
-                return false;
-            bool flag = _employeeRepository.Employees.Add(employee);
-            if (flag)
-                _employeeRepository.Save();
-            return flag;
+                return null;
+            _repositoryMamager.Employees.Add(employee);
+            _repositoryMamager.Save();
+            return employee;
         }
 
         public bool DeleteOne(int id)
         {
-            bool flag = _employeeRepository.Employees.DeleteEmployees(id);
-            if (flag)
-                _employeeRepository.Save();
-            return flag;
+            if(_employeeRepository.indexOf(id) == -1)
+                return false;
+            _employeeRepository.Delete(id);
+            _repositoryMamager.Save();
+            return true;
         }
 
         public IEnumerable<Employee> GetAll()
         {
-            return _employeeRepository.Employees.GetEmployees();
+            return _employeeRepository.Get().ToList();
         }
 
         public Employee GetEmployee(int id)
         {
-            return _employeeRepository.Employees.getByIdEmployees(id);
+            return _employeeRepository.GetById(id);
         }
 
         public bool Update(int id, Employee employee)
@@ -47,14 +50,14 @@ namespace busCompany.SERVICE.Service
 
             if (GetAll().Count() == 0)
                 return false;
-            if (_employeeRepository.Employees.indexOf(id) == -1)
+            if (_employeeRepository.indexOf(id) == -1)
                 return false;
             if (employee.Tz != null && !CheckIDNo(employee.Tz) || employee.PhoneNumber != null && employee.PhoneNumber.Length != 10)
                 return false;
 
-            bool flag = _employeeRepository.Employees.Update(id, employee);
+            bool flag = _employeeRepository.Update(id, employee);
             if (flag)
-                _employeeRepository.Save();
+                _repositoryMamager.Save();
             return flag;
         }
         static bool CheckIDNo(string strID)

@@ -11,37 +11,39 @@ namespace busCompany.SERVICE.Service
 {
     public class StationsService : IStationsService
     {
-        readonly IRepositoryMamager _stationRepository;
-        public StationsService(IRepositoryMamager stationRepository)
+        readonly IRepositoryMamager _repositoryMamager;
+        readonly IStationRepository _stationRepository;
+        public StationsService(IRepositoryMamager repositoryMamager, IStationRepository stationRepository)
         {
+            _repositoryMamager = repositoryMamager;
             _stationRepository = stationRepository;
         }
-        public bool Add(Station station)
+        public Station Add(Station station)
         {
             if (GetStation(station.Id) != null)
-                return false;
-            bool flag = _stationRepository.Stations.Add(station);
-            if (flag)
-                _stationRepository.Save();
-            return flag;
+                return null;
+            _stationRepository.Add(station);
+            _repositoryMamager.Save();
+            return station;
         }
 
         public bool DeleteOne(int id)
         {
-            bool flag = _stationRepository.Stations.DeleteStation(id);
-            if(flag)
-                _stationRepository.Save();
-            return flag;
+            if(_stationRepository.indexOf(id) == -1)
+                return false;
+            _stationRepository.Delete(id);
+            _repositoryMamager.Save();
+            return true;
         }
 
         public IEnumerable<Station> GetAll()
         {
-            return _stationRepository.Stations.GetStations();
+            return _stationRepository.Get().ToList();
         }
 
         public Station GetStation(int id)
         {
-            return _stationRepository.Stations.getByIdStation(id);
+            return _stationRepository.GetById(id);
         }
 
         public bool Update(int id, Station station)
@@ -49,11 +51,11 @@ namespace busCompany.SERVICE.Service
           
             if (  GetAll().Count() == 0)
                 return false;
-            if (_stationRepository.Stations.indexOf(id) == -1)
+            if (_stationRepository.indexOf(id) == -1)
                 return false;
-            bool flag = _stationRepository.Stations.Update(id,station);
+            bool flag = _stationRepository.Update(id,station);
             if(flag)
-                _stationRepository.Save();
+                _repositoryMamager.Save();
             return flag;
         }
     }

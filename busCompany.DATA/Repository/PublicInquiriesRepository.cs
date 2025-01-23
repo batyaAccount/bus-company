@@ -9,81 +9,31 @@ using System.Threading.Tasks;
 
 namespace busCompany.DATA.Repository
 {
-    public class PublicInquiriesRepository : IPublicInquiriesRepository
+    public class PublicInquiriesRepository :Repository<PublicInquiries>, IPublicInquiriesRepository
     {
         readonly DataContext _context;
-        public PublicInquiriesRepository(DataContext context)
+        public PublicInquiriesRepository(DataContext context):base(context)
         {
             _context = context;
         }
-        public IEnumerable<PublicInquiries> GetPublicInquiries() { return _context.PublicInquiries.Include(p=>p.Driver); }
-        public PublicInquiries GetByIdPublicInquiry(int id)
-        {
-
-            return _context.PublicInquiries.ToList().Find(z => z.Id == id);
-
-        }
-        public bool Add(PublicInquiries publicInquiry)
-        {
-
-            try
-            {
-                _context.PublicInquiries.Add(publicInquiry);
-                return true;
-            }
-            catch
-            {
-                return false;
-
-            }
-
-        }
+        public override IEnumerable<PublicInquiries> Get() { return _dbSet.Include(p=>p.Driver); }
         public bool Update(int id, PublicInquiries publicInquiry)
         {
 
-            //The validate checking was done in the service
-            PublicInquiries publicInquiry1 = _context.PublicInquiries.ToList().Find(b => b.Id == id);
+            PublicInquiries publicInquiry1 = GetById(id);
 
-            _ = publicInquiry.ComplainerName != null && publicInquiry.ComplainerName != publicInquiry1.ComplainerName ?
-            publicInquiry1.ComplainerName = publicInquiry.ComplainerName : publicInquiry1.ComplainerName = publicInquiry1.ComplainerName;
-
-            _ = publicInquiry.DriverId != 0 && publicInquiry.DriverId != publicInquiry1.DriverId ?
-            publicInquiry1.Driver = publicInquiry.Driver : publicInquiry1.Driver = publicInquiry1.Driver;
-
-            _ = publicInquiry.Cared != publicInquiry1.Cared ?
-              publicInquiry1.Cared = publicInquiry.Cared : publicInquiry1.Cared = publicInquiry1.Cared;
-
-            _ = publicInquiry.CaredBy != publicInquiry1.CaredBy && publicInquiry.CaredBy !=0?
-              publicInquiry1.CaredBy = publicInquiry.CaredBy : publicInquiry1.CaredBy = publicInquiry1.CaredBy;
-
-            _ = publicInquiry.Date != publicInquiry1.Date && publicInquiry.Date != DateTime.MinValue ?
-              publicInquiry1.Date = publicInquiry.Date : publicInquiry1.Date = publicInquiry1.Date;
-
-            _ = publicInquiry.Description != publicInquiry1.Description && publicInquiry.Description !=null?
-              publicInquiry1.Description = publicInquiry.Description : publicInquiry1.Description = publicInquiry1.Description;
-
-            _ = publicInquiry.PhoneNumber != publicInquiry1.PhoneNumber && publicInquiry.PhoneNumber != null ?
-              publicInquiry1.PhoneNumber = publicInquiry.PhoneNumber : publicInquiry1.PhoneNumber = publicInquiry1.PhoneNumber;
+            publicInquiry1.ComplainerName = publicInquiry.ComplainerName;
+            publicInquiry1.Driver = publicInquiry.Driver;
+            publicInquiry1.Cared = publicInquiry.Cared;
+            publicInquiry1.CaredBy = publicInquiry.CaredBy;
+            publicInquiry1.Date = publicInquiry.Date;
+            publicInquiry1.Description = publicInquiry.Description;
+            publicInquiry1.PhoneNumber = publicInquiry.PhoneNumber;
             return true;
-        }
-        public bool DeletePublicInquiry(int id)
-        {
-            List<PublicInquiries> l = _context.PublicInquiries.ToList();
-
-            PublicInquiries publicToDelete = l.FirstOrDefault(e => e.Id == id);
-
-            if (publicToDelete != null)
-            {
-                _context.PublicInquiries.Remove(publicToDelete);
-                return true;
-            }
-
-            return false;
-
         }
         public int indexOf(int id)
         {
-            return _context.PublicInquiries.ToList().FindIndex(b => b.Id == id);
+            return Get().ToList().FindIndex(b => b.Id == id);
         }
     }
 }

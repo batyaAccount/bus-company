@@ -1,46 +1,44 @@
 ﻿using busCompany.Core.Entity;
 using busCompany.CORE.IRepository;
 using busCompany.CORE.IService;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace busCompany.SERVICE.Service
 {
     public class BusesSrvice : IBusesService
     {
         readonly IRepositoryMamager _Repository;
-        public BusesSrvice(IRepositoryMamager busesRepository)
+        readonly IBusesRepository _busesRepository;
+        public BusesSrvice(IRepositoryMamager busesRepository,IBusesRepository busesRepository1)
         {
             _Repository = busesRepository;
+            _busesRepository = busesRepository1;
         }
         public Bus GetBus(int id)
         {
-            return _Repository.Buses.GetByIdBus(id);
+            return _busesRepository.GetById(id);
         }
-        public bool Add(Bus bus)
+        public Bus Add(Bus bus)
         {
             if (GetBus(bus.BusId) != null)
-                return false;
-            bool flag = _Repository.Buses.Add(bus);
-            if (flag)
+                return null;
+            _Repository.Buses.Add(bus);
                 _Repository.Save();
-            return flag;
+            return bus;
         }
 
         public bool DeleteOne(int id)
         {
-            bool flag = _Repository.Buses.DeleteBus(id);
-            if (flag)
-                _Repository.Save();
-            return flag;
+            if(_busesRepository.indexOf(id) == -1)
+                return false;
+            _busesRepository.Delete(id);
+            _Repository.Save();
+            return true;
         }
 
         public IEnumerable<Bus> GetAll()
         {
-            return _Repository.Buses.GetBuses();
+            return _busesRepository.Get().ToList();
         }
 
         public bool Update(int id, Bus employee)
@@ -48,9 +46,9 @@ namespace busCompany.SERVICE.Service
 
             if (GetAll().Count() == 0)
                 return false;
-            if (_Repository.Buses.indexOf(id) == -1)
+            if (_busesRepository.indexOf(id) == -1)
                 return false;
-            bool flag = _Repository.Buses.Update(id, employee);
+            bool flag = _busesRepository.Update(id, employee);
             if (flag)
                 _Repository.Save();
             return flag;

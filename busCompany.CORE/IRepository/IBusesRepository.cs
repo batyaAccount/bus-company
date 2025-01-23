@@ -9,11 +9,11 @@ namespace busCompany.CORE.IRepository
 {
     public interface IBusesRepository
     {
-        public IEnumerable<Bus> GetBuses();
-        public Bus GetByIdBus(int bus);
-        public bool Add(Bus bus);
+        public IEnumerable<Bus> Get();
+        public Bus GetById(int bus);
+        public Bus Add(Bus bus);
         public bool Update(int id, Bus bus);
-        public bool DeleteBus(int id);
+        public void Delete(int id);
         public int indexOf(int id);
     }
 }

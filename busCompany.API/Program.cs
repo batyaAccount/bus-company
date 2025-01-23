@@ -43,6 +43,7 @@ builder.Services.AddScoped<IStationRepository, StationsRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeesRepository>();
 builder.Services.AddScoped<IRouteRepository, RoutesRepository>();
 builder.Services.AddScoped<IBusesRepository, BusesRepository>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

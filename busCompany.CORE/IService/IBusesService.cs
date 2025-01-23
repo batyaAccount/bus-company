@@ -12,7 +12,7 @@ namespace busCompany.CORE.IService
 
         public IEnumerable<Bus> GetAll();
         public Bus GetBus(int id);
-        public bool Add(Bus employee);
+        public Bus Add(Bus employee);
         public bool Update(int id, Bus employee);
         public bool DeleteOne(int id);
     }

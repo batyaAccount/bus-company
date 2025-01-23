@@ -1,4 +1,5 @@
-﻿using busCompany.Core.IRepository;
+﻿using busCompany.Core.Entity;
+using busCompany.Core.IRepository;
 using busCompany.CORE.IRepository;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,12 @@ namespace busCompany.DATA.Repository
     public class RepositoryManager : IRepositoryMamager
     {
         private readonly DataContext _context;
-        public IBusesRepository Buses { get; }
-        public IEmployeeRepository Employees { get; }
-        public IPublicInquiriesRepository PublicInquiries { get; }
-        public IRouteRepository Routes { get; }
-        public IStationRepository Stations { get; }
-        public RepositoryManager(DataContext context, IBusesRepository BusesRepository, IEmployeeRepository EmployeesRepository, IPublicInquiriesRepository PublicInquiriesRepository, IRouteRepository RoutesRepository, IStationRepository StationsRepository)
+        public IRepository<Bus> Buses { get; }
+        public IRepository<Employee> Employees { get; }
+        public IRepository<PublicInquiries> PublicInquiries { get; }
+        public IRepository<Route> Routes { get; }
+        public IRepository<Station> Stations { get; }
+        public RepositoryManager(DataContext context, IRepository<Bus> BusesRepository, IRepository<Employee> EmployeesRepository, IRepository<PublicInquiries> PublicInquiriesRepository, IRepository<Route> RoutesRepository, IRepository<Station> StationsRepository)
         {
             _context = context;
             Buses = BusesRepository;

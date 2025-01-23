@@ -37,11 +37,11 @@ namespace busCompany.API.Controllers
 
         // POST api/<EmployeeController>
         [HttpPost]
-        public ActionResult Post([FromBody] Station station)
+        public ActionResult<Station> Post([FromBody] Station station)
         {
-            bool b = _stationsService.Add(station);
-            if (b == false)
-                return NotFound(false);
+            Station b = _stationsService.Add(station);
+            if (b == null)
+                return BadRequest();
             return Ok(b);
         }
 

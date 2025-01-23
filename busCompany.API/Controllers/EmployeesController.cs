@@ -39,12 +39,12 @@ namespace busCompany.API.Controllers
 
         // POST api/<EmployeeController>
         [HttpPost]
-        public ActionResult Post([FromBody] Employee employee)
+        public ActionResult<Employee> Post([FromBody] Employee employee)
         {
-            bool b = _employeesService.Add(employee);
-            if (b == false)
+            Employee b = _employeesService.Add(employee);
+            if (b == null)
                 return BadRequest();
-            return Ok(true);
+            return Ok(employee);
         }
 
         // PUT api/<EmployeeController>/5

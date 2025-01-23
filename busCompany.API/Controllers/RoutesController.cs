@@ -38,11 +38,11 @@ namespace busCompany.API.Controllers
 
         // POST api/<EmployeeController>
         [HttpPost]
-        public ActionResult Post([FromBody] Core.Entity.Route route)
+        public ActionResult<Core.Entity.Route> Post([FromBody] Core.Entity.Route route)
         {
-            bool b = _routesService.Add(route);
-            if (b == false)
-                return NotFound(false);
+            Core.Entity.Route b = _routesService.Add(route);
+            if (b == null)
+                return BadRequest();
             return Ok(b);
         }
 
