@@ -1,4 +1,6 @@
-﻿using busCompany.Core.Entity;
+﻿using AutoMapper;
+using busCompany.Core.Entity;
+using busCompany.CORE.DTOs;
 using busCompany.CORE.IRepository;
 using busCompany.CORE.IService;
 
@@ -9,14 +11,17 @@ namespace busCompany.SERVICE.Service
     {
         readonly IRepositoryMamager _Repository;
         readonly IBusesRepository _busesRepository;
-        public BusesSrvice(IRepositoryMamager busesRepository,IBusesRepository busesRepository1)
+        readonly IMapper _mapper;
+        public BusesSrvice(IRepositoryMamager busesRepository,IBusesRepository busesRepository1,IMapper mapper)
         {
             _Repository = busesRepository;
             _busesRepository = busesRepository1;
+            _mapper = mapper;
         }
-        public Bus GetBus(int id)
+        public BusDto GetBus(int id)
         {
-            return _busesRepository.GetById(id);
+            var bus = _busesRepository.GetById(id);
+            return _mapper.Map<BusDto>(bus);
         }
         public Bus Add(Bus bus)
         {
@@ -36,9 +41,10 @@ namespace busCompany.SERVICE.Service
             return true;
         }
 
-        public IEnumerable<Bus> GetAll()
+        public IEnumerable<BusDto> GetAll()
         {
-            return _busesRepository.Get().ToList();
+            var buses = _busesRepository.Get().ToList();
+            return _mapper.Map<IEnumerable<BusDto>>(buses);
         }
 
         public bool Update(int id, Bus employee)

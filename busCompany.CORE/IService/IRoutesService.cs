@@ -1,4 +1,5 @@
 ﻿using busCompany.Core.Entity;
+using busCompany.CORE.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace busCompany.CORE.IService
 {
     public interface IRoutesService
     {
-        public IEnumerable<Route> GetAll();
-        public Route GetRoute(int id);
+        public IEnumerable<RouteDto> GetAll();
+        public RouteDto GetRoute(int id);
         public Route Add(Route route);
         public bool Update(int id, Route route);
         public bool DeleteOne(int id);

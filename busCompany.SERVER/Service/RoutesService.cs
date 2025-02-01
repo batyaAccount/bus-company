@@ -1,4 +1,6 @@
-﻿using busCompany.Core.Entity;
+﻿using AutoMapper;
+using busCompany.Core.Entity;
+using busCompany.CORE.DTOs;
 using busCompany.CORE.IRepository;
 using busCompany.CORE.IService;
 using System;
@@ -13,10 +15,12 @@ namespace busCompany.SERVICE.Service
     {
         readonly IRepositoryMamager _repositoryMamager;
         readonly IRouteRepository _routeRepository;
-        public RoutesService(IRepositoryMamager repositoryMamager, IRouteRepository routeRepository)
+        readonly IMapper _mapper;
+        public RoutesService(IRepositoryMamager repositoryMamager, IRouteRepository routeRepository,IMapper mapper)
         {
             _repositoryMamager = repositoryMamager;
             _routeRepository = routeRepository;
+            _mapper = mapper;
         }
         public Route Add(Route route)
         {
@@ -36,14 +40,16 @@ namespace busCompany.SERVICE.Service
             return true;
         }
 
-        public IEnumerable<Route> GetAll()
+        public IEnumerable<RouteDto> GetAll()
         {
-            return _routeRepository.Get().ToList();
+            var routes =  _routeRepository.Get().ToList();
+            return _mapper.Map<IEnumerable<RouteDto>>(routes);
         }
 
-        public Route GetRoute(int id)
+        public RouteDto GetRoute(int id)
         {
-            return _routeRepository.GetById(id);
+            var route = _routeRepository.GetById(id);
+            return _mapper.Map<RouteDto>(route);
         }
 
         public bool Update(int id, Route route)

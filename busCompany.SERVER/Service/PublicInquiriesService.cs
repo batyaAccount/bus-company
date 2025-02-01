@@ -1,4 +1,6 @@
-﻿using busCompany.Core.Entity;
+﻿using AutoMapper;
+using busCompany.Core.Entity;
+using busCompany.CORE.DTOs;
 using busCompany.CORE.IRepository;
 using busCompany.CORE.IService;
 using System;
@@ -13,11 +15,12 @@ namespace busCompany.SERVICE.Service
     {
         readonly IRepositoryMamager _repositoryMamager;
         readonly IPublicInquiriesRepository _publicInquiriesRepository;
-        public PublicInquiriesService(IRepositoryMamager repositoryMamager, IPublicInquiriesRepository publicInquiriesRepository)
+        readonly IMapper _mapper;
+        public PublicInquiriesService(IRepositoryMamager repositoryMamager, IPublicInquiriesRepository publicInquiriesRepository,IMapper mapper)
         {
             _repositoryMamager = repositoryMamager;
             _publicInquiriesRepository = publicInquiriesRepository;
-
+            _mapper = mapper;
 
         }
         public PublicInquiries Add(PublicInquiries publicInquiry)
@@ -38,14 +41,16 @@ namespace busCompany.SERVICE.Service
             return true;
         }
 
-        public IEnumerable<PublicInquiries> GetAll()
+        public IEnumerable<PublicInquiriesDto> GetAll()
         {
-            return _publicInquiriesRepository.Get().ToList();
+            var publicInquiries= _publicInquiriesRepository.Get().ToList();
+            return _mapper.Map<IEnumerable<PublicInquiriesDto>>(publicInquiries);
         }
 
-        public PublicInquiries GetPublicInquiry(int id)
+        public PublicInquiriesDto GetPublicInquiry(int id)
         {
-            return _publicInquiriesRepository.GetById(id);
+            var publicInquiry = _publicInquiriesRepository.GetById(id);
+            return _mapper.Map<PublicInquiriesDto>(publicInquiry);
         }
 
         public bool Update(int id, PublicInquiries publicInquiries)

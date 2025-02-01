@@ -1,5 +1,6 @@
 using busCompany.Core.Entity;
 using busCompany.Core.IRepository;
+using busCompany.CORE;
 using busCompany.CORE.IRepository;
 using busCompany.CORE.IService;
 using busCompany.DATA;
@@ -45,6 +46,7 @@ builder.Services.AddScoped<IRouteRepository, RoutesRepository>();
 builder.Services.AddScoped<IBusesRepository, BusesRepository>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

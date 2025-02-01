@@ -1,4 +1,5 @@
 ﻿using busCompany.Core.Entity;
+using busCompany.CORE.DTOs;
 using busCompany.CORE.IRepository;
 using busCompany.CORE.IService;
 using Microsoft.AspNetCore.Mvc;
@@ -18,18 +19,18 @@ namespace busCompany.API.Controllers
         }
         // GET: api/<RoutesController>
         [HttpGet]
-        public IEnumerable<Core.Entity.Route> Get()
+        public IEnumerable<RouteDto> Get()
         {
             return _routesService.GetAll();
         }
 
         // GET api/<EmployeeController>/5
         [HttpGet("getById/{id}")]
-        public ActionResult<Core.Entity.Route> GetById(int id)
+        public ActionResult<RouteDto> GetById(int id)
         {
             if (id < 0)
                 return BadRequest();
-            Core.Entity.Route e = _routesService.GetRoute(id);
+            var e = _routesService.GetRoute(id);
             if (e == null)
                 return NotFound();
             return e;

@@ -1,4 +1,5 @@
 ﻿using busCompany.Core.Entity;
+using busCompany.CORE.DTOs;
 using busCompany.CORE.IService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +18,7 @@ namespace busCompany.API.Controllers
         }
         // GET: api/<PublicInquiriesController>
         [HttpGet]
-        public IEnumerable<PublicInquiries> Get()
+        public IEnumerable<PublicInquiriesDto> Get()
         {
             return _publicInquiriesService.GetAll();
 
@@ -26,11 +27,11 @@ namespace busCompany.API.Controllers
 
         // GET api/<BusesController>/5
         [HttpGet("byId/{id}")]
-        public ActionResult<PublicInquiries> Get(int id)
+        public ActionResult<PublicInquiriesDto> Get(int id)
         {
             if (id < 0)
                 return BadRequest();
-            PublicInquiries b = _publicInquiriesService.GetPublicInquiry(id);
+            var b = _publicInquiriesService.GetPublicInquiry(id);
             if (b == null)
                 return NotFound();
             return b;

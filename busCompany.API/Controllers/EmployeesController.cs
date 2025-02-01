@@ -1,4 +1,5 @@
 ﻿using busCompany.Core.Entity;
+using busCompany.CORE.DTOs;
 using busCompany.CORE.IService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +18,7 @@ namespace busCompany.API.Controllers
         }
         // GET: api/<EmployeesController>
         [HttpGet]
-        public IEnumerable<Employee> Get()
+        public IEnumerable<EmployeeDto> Get()
         {
             return _employeesService.GetAll();
 
@@ -26,11 +27,11 @@ namespace busCompany.API.Controllers
 
         // GET api/<EmployeeController>/5
         [HttpGet("getById/{id}")]
-        public ActionResult<Employee> Get(int id)
+        public ActionResult<EmployeeDto> Get(int id)
         {
             if (id < 0)
                 return BadRequest();
-            Employee e = _employeesService.GetEmployee(id);
+            var e = _employeesService.GetEmployee(id);
             if (e == null)
                 return NotFound();
             return e;
