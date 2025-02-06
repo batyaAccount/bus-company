@@ -12,8 +12,8 @@ namespace busCompany.CORE.IService
     {
         public IEnumerable<StationDto> GetAll();
         public StationDto GetStation(int id);
-        public Station Add(Station station);
-        public bool Update(int id, Station station);
+        public StationDto Add(StationDto station);
+        public bool Update(int id, StationDto station);
         public bool DeleteOne(int id);
     }
 }

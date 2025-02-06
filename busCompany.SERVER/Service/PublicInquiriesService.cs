@@ -23,11 +23,13 @@ namespace busCompany.SERVICE.Service
             _mapper = mapper;
 
         }
-        public PublicInquiries Add(PublicInquiries publicInquiry)
+        public PublicInquiriesDto Add(PublicInquiriesDto publicInquiry)
         {
+            var publicInquiriesE = _mapper.Map<PublicInquiries>(publicInquiry);
+
             if (GetPublicInquiry(publicInquiry.Id) != null)
                 return null;
-             _publicInquiriesRepository.Add(publicInquiry);
+             _publicInquiriesRepository.Add(publicInquiriesE);
             _repositoryMamager.Save();
             return publicInquiry;
         }
@@ -53,13 +55,13 @@ namespace busCompany.SERVICE.Service
             return _mapper.Map<PublicInquiriesDto>(publicInquiry);
         }
 
-        public bool Update(int id, PublicInquiries publicInquiries)
+        public bool Update(int id, PublicInquiriesDto publicInquiries)
         {
-
+            var publicInquiriesE = _mapper.Map<PublicInquiries>(publicInquiries);
             if (GetAll().Count() == 0)
                 return false;
             if (_publicInquiriesRepository.indexOf(id) == -1) return false;
-            bool flag = _publicInquiriesRepository.Update(id, publicInquiries);
+            bool flag = _publicInquiriesRepository.Update(id, publicInquiriesE);
             if (flag)
                 _repositoryMamager.Save();
             return flag;

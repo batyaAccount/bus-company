@@ -1,4 +1,5 @@
-﻿using busCompany.Core.Entity;
+﻿using busCompany.API.PostEntity;
+using busCompany.Core.Entity;
 using busCompany.CORE.DTOs;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,8 @@ namespace busCompany.CORE.IService
     {
         public IEnumerable<EmployeeDto> GetAll();
         public EmployeeDto GetEmployee(int id);
-        public Employee Add(Employee employee);
-        public bool Update(int id, Employee employee);
+        public EmployeeDto Add(EmployeeDto employee);
+        public bool Update(int id, EmployeeDto employee);
         public bool DeleteOne(int id);
     }
 }

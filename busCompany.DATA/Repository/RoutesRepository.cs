@@ -21,7 +21,6 @@ namespace busCompany.DATA.Repository
         {
 
             Route route1 = GetById(id);
-
             route1.SourceStationId = route.SourceStationId;
             route1.StationId = route.StationId;
             route1.BusLineId = route.BusLineId;

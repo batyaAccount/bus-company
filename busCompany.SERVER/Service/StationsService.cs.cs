@@ -23,11 +23,12 @@ namespace busCompany.SERVICE.Service
             _stationRepository = stationRepository;
             _mapper = mapper;
         }
-        public Station Add(Station station)
+        public StationDto Add(StationDto station)
         {
+            var stationE = _mapper.Map<Station>(station);
             if (GetStation(station.Id) != null)
                 return null;
-            _stationRepository.Add(station);
+            _stationRepository.Add(stationE);
             _repositoryMamager.Save();
             return station;
         }
@@ -53,14 +54,15 @@ namespace busCompany.SERVICE.Service
             return _mapper.Map<StationDto>(station);
         }
 
-        public bool Update(int id, Station station)
+        public bool Update(int id, StationDto station)
         {
-          
+            var stationE = _mapper.Map<Station>(station);
+
             if (  GetAll().Count() == 0)
                 return false;
             if (_stationRepository.indexOf(id) == -1)
                 return false;
-            bool flag = _stationRepository.Update(id,station);
+            bool flag = _stationRepository.Update(id,stationE);
             if(flag)
                 _repositoryMamager.Save();
             return flag;

@@ -1,4 +1,6 @@
-﻿using busCompany.Core.Entity;
+﻿using AutoMapper;
+using busCompany.API.PostEntity;
+using busCompany.Core.Entity;
 using busCompany.CORE.DTOs;
 using busCompany.CORE.IService;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +14,11 @@ namespace busCompany.API.Controllers
     public class BusesController : ControllerBase
     {
         readonly IBusesService _busesService;
-        public BusesController(IBusesService busesService)
+        readonly IMapper _mapper;
+        public BusesController(IBusesService busesService,IMapper mapper)
         {
             _busesService = busesService;
+            _mapper = mapper;
         }
         // GET: api/<BusesController>
         [HttpGet]
@@ -38,9 +42,10 @@ namespace busCompany.API.Controllers
 
         // POST api/<BusesController>
         [HttpPost]
-        public ActionResult<Bus> Post([FromBody] Bus bus)
+        public ActionResult<BusDto> Post([FromBody] BusesPostEntity bus)
         {
-            Bus b = _busesService.Add(bus);
+            var busD =_mapper.Map<BusDto>(bus);
+            BusDto b = _busesService.Add(busD);
             if (b == null)
                 return BadRequest();
             return Ok(b);
@@ -48,9 +53,10 @@ namespace busCompany.API.Controllers
 
         // PUT api/<BusesController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Bus bus)
+        public ActionResult Put(int id, [FromBody] BusesPostEntity bus)
         {
-            bool b = _busesService.Update(id, bus);
+            var busD = _mapper.Map<BusDto>(bus);
+            bool b = _busesService.Update(id, busD);
             if (b == false)
                 return NotFound(false);
             return Ok(b);

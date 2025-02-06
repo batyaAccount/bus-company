@@ -1,4 +1,6 @@
-﻿using busCompany.Core.Entity;
+﻿using AutoMapper;
+using busCompany.API.PostEntity;
+using busCompany.Core.Entity;
 using busCompany.CORE.DTOs;
 using busCompany.CORE.IService;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +14,11 @@ namespace busCompany.API.Controllers
     public class PublicInquiriesController : ControllerBase
     {
         readonly IPublicInquiriesService _publicInquiriesService;
-        public PublicInquiriesController(IPublicInquiriesService publicInquiriesService)
+        readonly IMapper _mapper;
+        public PublicInquiriesController(IPublicInquiriesService publicInquiriesService,IMapper mapper)
         {
             _publicInquiriesService = publicInquiriesService;
+            _mapper = mapper;
         }
         // GET: api/<PublicInquiriesController>
         [HttpGet]
@@ -40,9 +44,10 @@ namespace busCompany.API.Controllers
 
         // POST api/<BusesController>
         [HttpPost]
-        public ActionResult<PublicInquiries> Post([FromBody] PublicInquiries bus)
+        public ActionResult<PublicInquiriesDto> Post([FromBody] PublicInquiriesPostEntity PublicInquiries)
         {
-            PublicInquiries b = _publicInquiriesService.Add(bus);
+            var publicInquiriesD = _mapper.Map<PublicInquiriesDto>(PublicInquiries);
+            PublicInquiriesDto b = _publicInquiriesService.Add(publicInquiriesD);
             if (b == null)
                 return BadRequest();
             return Ok(b);
@@ -50,9 +55,11 @@ namespace busCompany.API.Controllers
 
         // PUT api/<BusesController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] PublicInquiries publicInquiry)
+        public ActionResult Put(int id, [FromBody] PublicInquiriesPostEntity publicInquiry)
         {
-            bool b = _publicInquiriesService.Update(id, publicInquiry);
+            var publicInquiriesD = _mapper.Map<PublicInquiriesDto>(publicInquiry);
+
+            bool b = _publicInquiriesService.Update(id, publicInquiriesD);
             if (b == false)
                 return NotFound(false);
             return Ok(b);

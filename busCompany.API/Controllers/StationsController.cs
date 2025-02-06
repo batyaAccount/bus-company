@@ -1,7 +1,10 @@
-﻿using busCompany.Core.Entity;
+﻿using AutoMapper;
+using busCompany.API.PostEntity;
+using busCompany.Core.Entity;
 using busCompany.CORE.DTOs;
 using busCompany.CORE.IService;
 using Microsoft.AspNetCore.Mvc;
+using static System.Collections.Specialized.BitVector32;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,9 +15,11 @@ namespace busCompany.API.Controllers
     public class StationsController : ControllerBase
     {
         readonly IStationsService _stationsService;
-        public StationsController(IStationsService stationsService)
+        readonly IMapper _mapper;
+        public StationsController(IStationsService stationsService,IMapper mapper)
         {
             _stationsService = stationsService;
+            _mapper = mapper;
         }
         // GET: api/<StationsController>
         [HttpGet]
@@ -38,9 +43,10 @@ namespace busCompany.API.Controllers
 
         // POST api/<EmployeeController>
         [HttpPost]
-        public ActionResult<Station> Post([FromBody] Station station)
+        public ActionResult<StationDto> Post([FromBody] StationPostEntity station)
         {
-            Station b = _stationsService.Add(station);
+            var stationD = _mapper.Map<StationDto>(station);
+            StationDto b = _stationsService.Add(stationD);
             if (b == null)
                 return BadRequest();
             return Ok(b);
@@ -48,9 +54,11 @@ namespace busCompany.API.Controllers
 
         // PUT api/<EmployeeController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Station r)
+        public ActionResult Put(int id, [FromBody] StationPostEntity r)
         {
-            bool b = _stationsService.Update(id, r);
+            var stationD = _mapper.Map<StationDto>(r);
+
+            bool b = _stationsService.Update(id, stationD);
             if (b == false)
                 return NotFound(false);
             return Ok(b);

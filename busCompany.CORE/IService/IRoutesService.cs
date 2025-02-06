@@ -12,8 +12,8 @@ namespace busCompany.CORE.IService
     {
         public IEnumerable<RouteDto> GetAll();
         public RouteDto GetRoute(int id);
-        public Route Add(Route route);
-        public bool Update(int id, Route route);
+        public RouteDto Add(RouteDto route);
+        public bool Update(int id, RouteDto route);
         public bool DeleteOne(int id);
     }
 }

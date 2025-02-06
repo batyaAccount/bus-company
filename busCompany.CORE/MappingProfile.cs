@@ -18,7 +18,6 @@ namespace busCompany.CORE
             CreateMap<PublicInquiries,PublicInquiriesDto>().ReverseMap();
             CreateMap<Station,StationDto>().ReverseMap();
             CreateMap<Route,RouteDto>().ReverseMap();
-
         }
     }
 }

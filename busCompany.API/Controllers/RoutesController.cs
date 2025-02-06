@@ -1,8 +1,11 @@
-﻿using busCompany.Core.Entity;
+﻿using AutoMapper;
+using busCompany.API.PostEntity;
+using busCompany.Core.Entity;
 using busCompany.CORE.DTOs;
 using busCompany.CORE.IRepository;
 using busCompany.CORE.IService;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,9 +16,11 @@ namespace busCompany.API.Controllers
     public class RoutesController : ControllerBase
     {
         readonly IRoutesService _routesService;
-        public RoutesController(IRoutesService routesService)
+        readonly IMapper _mapper;
+        public RoutesController(IRoutesService routesService,IMapper mapper)
         {
             _routesService = routesService;
+            _mapper = mapper;
         }
         // GET: api/<RoutesController>
         [HttpGet]
@@ -39,9 +44,10 @@ namespace busCompany.API.Controllers
 
         // POST api/<EmployeeController>
         [HttpPost]
-        public ActionResult<Core.Entity.Route> Post([FromBody] Core.Entity.Route route)
+        public ActionResult<RouteDto> Post([FromBody] RoutePostEntity route)
         {
-            Core.Entity.Route b = _routesService.Add(route);
+            var routeD = _mapper.Map<RouteDto>(route);  
+            RouteDto b = _routesService.Add(routeD);
             if (b == null)
                 return BadRequest();
             return Ok(b);
@@ -49,9 +55,11 @@ namespace busCompany.API.Controllers
 
         // PUT api/<EmployeeController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Core.Entity.Route r)
+        public ActionResult Put(int id, [FromBody] RoutePostEntity r)
         {
-            bool b = _routesService.Update(id, r);
+            var routeD = _mapper.Map<RouteDto>(r);
+
+            bool b = _routesService.Update(id, routeD);
             if (b == false)
                 return NotFound(false);
             return Ok(b);

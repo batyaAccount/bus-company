@@ -13,8 +13,8 @@ namespace busCompany.CORE.IService
 
         public IEnumerable<BusDto> GetAll();
         public BusDto GetBus(int id);
-        public Bus Add(Bus employee);
-        public bool Update(int id, Bus employee);
+        public BusDto Add(BusDto employee);
+        public bool Update(int id, BusDto employee);
         public bool DeleteOne(int id);
     }
 }

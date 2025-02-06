@@ -23,11 +23,12 @@ namespace busCompany.SERVICE.Service
             var bus = _busesRepository.GetById(id);
             return _mapper.Map<BusDto>(bus);
         }
-        public Bus Add(Bus bus)
+        public BusDto Add(BusDto bus)
         {
             if (GetBus(bus.BusId) != null)
                 return null;
-            _Repository.Buses.Add(bus);
+            var busE = _mapper.Map<Bus>(bus);
+            _Repository.Buses.Add(busE);
                 _Repository.Save();
             return bus;
         }
@@ -47,14 +48,15 @@ namespace busCompany.SERVICE.Service
             return _mapper.Map<IEnumerable<BusDto>>(buses);
         }
 
-        public bool Update(int id, Bus employee)
+        public bool Update(int id, BusDto bus)
         {
 
             if (GetAll().Count() == 0)
                 return false;
             if (_busesRepository.indexOf(id) == -1)
                 return false;
-            bool flag = _busesRepository.Update(id, employee);
+            var busE = _mapper.Map<Bus>(bus);
+            bool flag = _busesRepository.Update(id, busE);
             if (flag)
                 _Repository.Save();
             return flag;

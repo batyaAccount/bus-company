@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using busCompany.API.PostEntity;
 using busCompany.Core.Entity;
 using busCompany.CORE.DTOs;
 using busCompany.CORE.IRepository;
@@ -22,11 +23,12 @@ namespace busCompany.SERVICE.Service
             _routeRepository = routeRepository;
             _mapper = mapper;
         }
-        public Route Add(Route route)
+        public RouteDto Add(RouteDto route)
         {
-            if (GetRoute(route.Id) != null)
+            var routeE = _mapper.Map<Route>(route);
+            if (GetRoute(routeE.Id) != null)
                 return null;
-            _routeRepository.Add(route);
+            _routeRepository.Add(routeE);
             _repositoryMamager.Save();
             return route;
         }
@@ -52,13 +54,15 @@ namespace busCompany.SERVICE.Service
             return _mapper.Map<RouteDto>(route);
         }
 
-        public bool Update(int id, Route route)
+        public bool Update(int id, RouteDto route)
         {
+            var routeE = _mapper.Map<Route>(route);
+
             if (GetAll().Count() == 0)
                 return false;
             if (_routeRepository.indexOf(id) == -1)
                 return false;
-            bool flag = _routeRepository.Update(id, route);
+            bool flag = _routeRepository.Update(id, routeE);
             if (flag)
                 _repositoryMamager.Save();
             return flag;

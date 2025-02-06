@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using busCompany.API.PostEntity;
 using busCompany.Core.Entity;
 using busCompany.Core.IRepository;
 using busCompany.CORE.DTOs;
@@ -18,15 +19,16 @@ namespace busCompany.SERVICE.Service
             _employeeRepository = employeeRepository;
             _mapper = mapper;
         }
-        public Employee Add(Employee employee)
+        public EmployeeDto Add(EmployeeDto employeeD)
         {
+            var employee = _mapper.Map<Employee>(employeeD);
             if (GetEmployee(employee.Id) != null)
                 return null;
             if (employee.PhoneNumber.Length != 10 || CheckIDNo(employee.Tz) == false)
                 return null;
             _repositoryMamager.Employees.Add(employee);
             _repositoryMamager.Save();
-            return employee;
+            return employeeD;
         }
 
         public bool DeleteOne(int id)
@@ -51,7 +53,7 @@ namespace busCompany.SERVICE.Service
             return _mapper.Map<EmployeeDto>(employee);
         }
 
-        public bool Update(int id, Employee employee)
+        public bool Update(int id, EmployeeDto employee)
         {
 
             if (GetAll().Count() == 0)
@@ -60,8 +62,8 @@ namespace busCompany.SERVICE.Service
                 return false;
             if (employee.Tz != null && !CheckIDNo(employee.Tz) || employee.PhoneNumber != null && employee.PhoneNumber.Length != 10)
                 return false;
-
-            bool flag = _employeeRepository.Update(id, employee);
+            var employeeE = _mapper.Map<Employee>(employee);
+            bool flag = _employeeRepository.Update(id, employeeE);
             if (flag)
                 _repositoryMamager.Save();
             return flag;
